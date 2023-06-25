@@ -1,0 +1,42 @@
+{
+  "compilerOptions": {
+    "module": "ES2022",
+    "moduleResolution": "nodenext",
+    "target": "es2022",
+
+    "strict": true,
+
+    // utils
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
+    "rootDir": ".",
+    "baseUrl": "./src",
+    "paths": {
+      "#*": ["./*"],
+      "#common/*": ["./common/*"]
+    },
+
+    // build
+    "outDir": "./dist",
+    "declaration": true,
+    "sourceMap": true,
+    "incremental": true,
+    "skipLibCheck": true,
+
+    // code quality
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noImplicitReturns": true,
+    "strictNullChecks": false,
+
+    // others
+    "removeComments": true,
+    "allowJs": true,
+    "checkJs": false,
+    "noEmitOnError": false
+  },
+  "exclude": ["node_modules", "dist"]
+}
