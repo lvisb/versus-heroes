@@ -17,4 +17,16 @@ export class ConfigService implements Env {
   get DATABASE_URL(): string {
     return this.service.get<string>('DATABASE_URL')
   }
+
+  get SUPABASE_URL(): string {
+    return this.service.get<string>('SUPABASE_URL')
+  }
+
+  get SUPABASE_KEY(): string {
+    return this.service.get<string>('SUPABASE_KEY')
+  }
+
+  get SUPABASE_JWT_SECRET(): string {
+    return this.service.get<string>('SUPABASE_JWT_SECRET')
+  }
 }

@@ -1,5 +1,5 @@
 import { Expose, Type } from 'class-transformer'
-import { IsDefined, IsInt, Min } from 'class-validator'
+import { IsDefined, IsInt, IsJWT, IsUrl, Min } from 'class-validator'
 
 export class Env {
   @Expose()
@@ -15,4 +15,18 @@ export class Env {
   @Expose()
   @IsDefined()
   DATABASE_URL: string
+
+  @Expose()
+  @IsDefined()
+  @IsUrl()
+  SUPABASE_URL: string
+
+  @Expose()
+  @IsDefined()
+  @IsJWT()
+  SUPABASE_KEY: string
+
+  @Expose()
+  @IsDefined()
+  SUPABASE_JWT_SECRET: string
 }
