@@ -10,6 +10,8 @@ declare namespace ApiResponses {
     statusCode?: number
     message?: string
     errors?: InputValidationError[]
+
+    [key: string]: any
   }
 
   interface JsonResponsePagination extends JsonResponse {
