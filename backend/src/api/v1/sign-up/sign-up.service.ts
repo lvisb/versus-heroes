@@ -21,14 +21,15 @@ export class SignUpService {
   createUser(dto: SignUpDto) {
     const { password, email, name } = dto
 
-    return this.client.auth.admin.createUser({
-      user_metadata: { role: 'user', name },
+    return this.client.auth.signUp({
       password,
       email,
+      options: {
+        data: {
+          role: 'user',
+          name,
+        },
+      },
     })
-  }
-
-  inviteUserByEmail(email: string) {
-    return this.client.auth.admin.inviteUserByEmail(email)
   }
 }

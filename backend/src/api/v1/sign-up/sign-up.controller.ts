@@ -17,8 +17,6 @@ export class SignUpController {
 
     await this.service.createUser(dto)
 
-    await this.service.inviteUserByEmail(email)
-
     return HttpResponse.createBody({})
   }
 }
