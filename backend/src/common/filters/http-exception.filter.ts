@@ -1,4 +1,4 @@
-import { ValidationExceptionItem } from '#common/config/validation-pipe.config.js'
+import { ValidationExceptionItem } from '#common/validation-pipe.config.js'
 import {
   ArgumentsHost,
   Catch,

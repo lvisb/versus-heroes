@@ -1,9 +1,11 @@
 import { ConfigModule as NestConfigModule } from '@nestjs/config'
 import { plainToInstance } from 'class-transformer'
-import { Env } from './env.config.js'
 import { validateSync } from 'class-validator'
+import { Module } from '@nestjs/common'
+import { Env } from '#common/env.config.js'
+import { ConfigService } from './config.service.js'
 
-export const ConfigModule = NestConfigModule.forRoot({
+const ConfigModuleSetup = NestConfigModule.forRoot({
   cache: true,
   isGlobal: true,
   envFilePath: ['.env'],
@@ -20,3 +22,10 @@ export const ConfigModule = NestConfigModule.forRoot({
     return validateConfig
   },
 })
+
+@Module({
+  imports: [ConfigModuleSetup],
+  providers: [ConfigService],
+  exports: [ConfigService],
+})
+export class ConfigModule {}

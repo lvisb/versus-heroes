@@ -1,4 +1,4 @@
-import { ConfigService } from '#common/services/config.service.js'
+import { ConfigService } from '#config/config.service.js'
 import {
   SupabaseClient as InternalSupabaseClient,
   createClient,

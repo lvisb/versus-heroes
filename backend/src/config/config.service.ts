@@ -1,4 +1,4 @@
-import { Env } from '#common/config/env.config.js'
+import { Env } from '#common/env.config.js'
 import { Injectable } from '@nestjs/common'
 import { ConfigService as NestConfigService } from '@nestjs/config'
 

@@ -1,4 +1,4 @@
-import { passwordRules } from '#common/config/password-rules.config.js'
+import { passwordRules } from '#common/password-rules.config.js'
 import { IsDefined, IsEmail, IsStrongPassword } from 'class-validator'
 
 export class SignInDto {

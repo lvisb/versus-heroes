@@ -2,9 +2,9 @@ import { INestApplication } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { useContainer } from 'class-validator'
 import { AppModule } from '#app.module.js'
-import validationPipeConfig from '#common/config/validation-pipe.config.js'
+import validationPipeConfig from '#common/validation-pipe.config.js'
 import { HttpExceptionFilter } from '#common/filters/http-exception.filter.js'
-import { ConfigService } from '#common/services/config.service.js'
+import { ConfigService } from '#config/config.service.js'
 
 export class App {
   // singleton instance
@@ -53,11 +53,11 @@ export class App {
       ],
     })
 
-    // global error handling, returning a pre-formatted 
+    // global error handling, returning a pre-formatted
     // json with the error.
     this.app.useGlobalFilters(new HttpExceptionFilter())
 
-    // global pipes for data transformation and validation 
+    // global pipes for data transformation and validation
     // of data posted to the endpoints of controllers.
     this.app.useGlobalPipes(validationPipeConfig)
 
@@ -68,7 +68,7 @@ export class App {
    * Gets an instance of the ConfigService.
    * Usage: App.configService.get(...)
    *
-   * @returns {ConfigService} 
+   * @returns {ConfigService}
    */
   static get configService(): ConfigService {
     return App.instance.app!.get<ConfigService>(ConfigService)
