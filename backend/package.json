@@ -26,6 +26,7 @@
     "@nestjs/common": "^10.0.2",
     "@nestjs/config": "^3.0.0",
     "@nestjs/core": "^10.0.2",
+    "@nestjs/jwt": "^10.1.0",
     "@nestjs/passport": "^10.0.0",
     "@nestjs/platform-express": "^10.0.2",
     "@supabase/supabase-js": "^2.26.0",
@@ -35,7 +36,8 @@
     "eslint-plugin-unused-imports": "^2.0.0",
     "nestjs-i18n": "^10.2.6",
     "passport": "^0.6.0",
-    "passport-custom": "^1.1.1",
+    "passport-jwt": "^4.0.1",
+    "passport-local": "^1.0.0",
     "postgres": "^3.3.5",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1"
