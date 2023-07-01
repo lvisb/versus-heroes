@@ -11,7 +11,7 @@ export const SupabaseClientProvider: any = {
   inject: [ConfigService],
   useFactory: async (
     configService: ConfigService,
-  ): Promise<InternalSupabaseClient<any, 'public', any>> => {
+  ): Promise<InternalSupabaseClient> => {
     const supabase = createClient(
       configService.SUPABASE_URL,
       configService.SUPABASE_KEY,
