@@ -1,16 +1,26 @@
+import { ConfigService } from '#config/config.service.js'
 import { SupabaseClient } from '#supabase/supabase.provider.js'
 import { Inject, Injectable } from '@nestjs/common'
 import { PassportStrategy } from '@nestjs/passport'
 import supabase from '@supabase/supabase-js'
-import { Strategy } from 'passport-custom'
+import { ExtractJwt, Strategy } from 'passport-jwt'
+
+export const SupabaseStrategyName = 'supabase'
 
 @Injectable()
-export class SupabaseStrategy extends PassportStrategy(Strategy, 'supabase') {
+export class SupabaseStrategy extends PassportStrategy(
+  Strategy,
+  SupabaseStrategyName,
+) {
   public constructor(
     @Inject(SupabaseClient)
     private readonly client: supabase.SupabaseClient<any, 'public', any>,
+    private readonly configService: ConfigService,
   ) {
-    super()
+    super({
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      secretOrKey: configService.SUPABASE_JWT_SECRET,
+    })
   }
 
   validate(
