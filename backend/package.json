@@ -1,6 +1,5 @@
 {
   "name": "versus-heroes-backend",
-  "packageManager": "yarn@3.6.0",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -12,8 +11,6 @@
     "#common/*": "./dist/src/common/*"
   },
   "scripts": {
-    "drizzle-migrate": "env-cmd ts-node-esm drizzle.migrate.ts",
-    "drizzle-generate": "drizzle-kit generate:pg",
     "supabase-types": "supabase gen types typescript --linked > src/common/types/supabase.types.ts",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
