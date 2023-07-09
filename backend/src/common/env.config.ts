@@ -29,4 +29,8 @@ export class Env {
   @Expose()
   @IsDefined()
   SUPABASE_JWT_SECRET: string
+
+  @Expose()
+  @IsDefined()
+  OPENAI_API_KEY: string
 }

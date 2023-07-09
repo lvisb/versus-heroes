@@ -29,4 +29,8 @@ export class ConfigService implements Env {
   get SUPABASE_JWT_SECRET(): string {
     return this.service.get<string>('SUPABASE_JWT_SECRET')
   }
+
+  get OPENAI_API_KEY(): string {
+    return this.service.get<string>('OPENAI_API_KEY')
+  }
 }
