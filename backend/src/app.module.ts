@@ -3,9 +3,10 @@ import { AuthModule } from '#api/v1/auth/auth.module.js'
 import { SignUpModule } from '#api/v1/sign-up/sign-up.module.js'
 import { CharModule } from '#api/v1/char/char.module.js'
 import { ConfigModule } from '#config/config.module.js'
+import { ChatgptModule } from '#chatgpt/chatgpt.module.js'
 
 @Module({
-  imports: [ConfigModule, AuthModule, SignUpModule, CharModule],
+  imports: [ConfigModule, AuthModule, SignUpModule, CharModule, ChatgptModule],
   controllers: [],
   providers: [],
   exports: [],
