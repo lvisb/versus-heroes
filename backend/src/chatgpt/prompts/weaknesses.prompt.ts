@@ -1,0 +1,1 @@
+export const weaknessesPrompt = `Considering the character's entire history, list up to 5 weaknesses of the character, without explaining why, and return as array of string in javascript without line break.`

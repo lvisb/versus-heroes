@@ -1,0 +1,1 @@
+export const strenghtsPrompt = `Considering the character's entire history, list up to 5 strengths of the character, without explaining why, and return as array of strings in javascript without line break.`
