@@ -39,7 +39,8 @@
     "passport-local": "^1.0.0",
     "postgres": "^3.3.5",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "slug": "^8.2.2"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.3",
@@ -51,6 +52,7 @@
     "@types/jest": "29.5.2",
     "@types/node": "20.3.1",
     "@types/passport-jwt": "^3.0.8",
+    "@types/slug": "^5.0.3",
     "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^5.60.0",
     "@typescript-eslint/parser": "^5.60.0",
