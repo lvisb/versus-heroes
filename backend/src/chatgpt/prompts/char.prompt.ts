@@ -10,13 +10,11 @@ export const charMainNamePrompt = (namesList: string[]) =>
 export const charSummaryPrompt = (charName: string) => `Who is ${charName}? Return a JSON containing the summary, and also char_type: If villain or a hero.`
 
 export const charHistoryPrompt = (charName: string) =>
-  `You should not write in bullet points or enumerate items, return a JSON containing the history. Build a narrative based on the following information:
+  `Make sure you return only text and ou should not write in bullet points, enumerate items, or create topics. Build a narrative based on the following information: Tell the story of ${charName}, start with their personality, then their level of intelligence, followed by their appearance, their abilities, their specialty, their preferences, their fears, and finally their good or bad deeds. Convert the response to text and return the history.`
 
-Tell the story of the character ${charName}. Begin by discussing their personality, then their level of intelligence, followed by their appearance, their abilities, their specialty, their preferences, their fears, and finally their good or bad deeds.`
+export const charAppearance = (charName: string) => `You should not write in bullet points or enumerate items, return only text not JSON. Utilize all your existing information to describe the appearance of the character ${charName}, preferably in a meticulous manner.`
 
-export const charAppearance = (charName: string) => `You should not write in bullet points or enumerate items, return a JSON containing the appearance. Utilize all your existing information to describe the appearance of the character ${charName}, preferably in a meticulous manner.`
-
-export const charStrenghtsPrompt = `Considering the character's entire history, list up to 5 weaknesses of the character, without explaining why, and return as array of string in javascript without line break.`
+export const charStrenghtsPrompt = `Considering the character's entire history, list up to 5 strenghts of the character, without explaining why, and return as array of string in javascript without line break.`
 
 export const charWeaknessesPrompt = `Considering the character's entire history, list up to 5 weaknesses of the character, without explaining why, and return as array of string in javascript without line break.`
 

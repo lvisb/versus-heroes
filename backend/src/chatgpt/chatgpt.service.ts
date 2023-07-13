@@ -78,7 +78,7 @@ export class ChatGptService {
     )
 
     const json: chatgpt.char.FullHistory = {
-      history: JSON.parse(promptResult.text).history,
+      history: promptResult.text,
       conversationId: promptResult.conversationId,
       id: promptResult.id,
     }
@@ -98,7 +98,7 @@ export class ChatGptService {
     )
 
     const json: chatgpt.char.Appearance = {
-      appearance: JSON.parse(promptResult.text).appearance,
+      appearance: promptResult.text,
       conversationId: promptResult.conversationId,
       id: promptResult.id,
     }
@@ -112,7 +112,7 @@ export class ChatGptService {
       messageOptions,
     )
 
-    const json: chatgpt.char.Attributes = JSON.parse(attributes.text).attributes
+    const json: chatgpt.char.Attributes = JSON.parse(attributes.text)
 
     return json
   }
