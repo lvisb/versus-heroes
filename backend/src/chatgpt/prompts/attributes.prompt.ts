@@ -1,1 +1,0 @@
-export const attributesPrompt = `Considering the entire character's history, assign values from 1 to 5 for each of the attributes below, without explaining why, and return as a javascript serialized json: strength,intelligence,speed,defense,vitality,agility,technique,mobility,endurance,evasion`

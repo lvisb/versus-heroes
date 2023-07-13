@@ -1,10 +1,18 @@
 import { ChatGptClient } from '#chatgpt/chatgpt.provider.js'
 import { Inject, Injectable } from '@nestjs/common'
-import { ChatGPTAPI } from 'chatgpt'
-import { summaryPrompt } from './prompts/summary.prompt.js'
-import { attributesPrompt } from './prompts/attributes.prompt.js'
-import { strenghtsPrompt } from './prompts/strenghts.prompt.js'
-import { weaknessesPrompt } from './prompts/weaknesses.prompt.js'
+import { ChatGPTAPI, SendMessageOptions } from 'chatgpt'
+import slug from 'slug'
+import { chatgpt } from '#common/types/chatgpt.types.js'
+import {
+  charAppearance,
+  charAttributesPrompt,
+  charExistsPrompt,
+  charHistoryPrompt,
+  charMainNamePrompt,
+  charStrenghtsPrompt,
+  charSummaryPrompt,
+  charWeaknessesPrompt,
+} from './prompts/char.prompt.js'
 
 @Injectable()
 export class ChatGptService {
@@ -13,37 +21,121 @@ export class ChatGptService {
     private readonly openai: ChatGPTAPI,
   ) {}
 
+  async charExists(charName: string) {
+    const charExists = await this.openai.sendMessage(charExistsPrompt(charName))
+
+    const promptResultJson = JSON.parse(charExists.text)
+
+    const json: chatgpt.char.CharExists = {
+      ...promptResultJson,
+      conversationId: charExists.conversationId,
+      id: charExists.id,
+    }
+
+    return json
+  }
+
+  async findMainName(charName: string, alsoKnown: string[]) {
+    const promptResult = await this.openai.sendMessage(
+      charMainNamePrompt([...charName, ...alsoKnown]),
+    )
+
+    const json: chatgpt.char.CharExists = {
+      ...JSON.parse(promptResult.text),
+      conversationId: promptResult.conversationId,
+      id: promptResult.id,
+    }
+
+    return json
+  }
+
   async charSummary(charName: string) {
-    const summary = await this.openai.sendMessage(summaryPrompt(charName), {
+    const summary = await this.openai.sendMessage(charSummaryPrompt(charName), {
+      conversationId: slug(charName),
       completionParams: {
         temperature: 0.2,
       },
     })
 
-    return summary
+    const json: chatgpt.char.Summary = {
+      summary: JSON.parse(summary.text).summary,
+      conversationId: summary.conversationId,
+      id: summary.id,
+    }
+
+    return json
   }
 
-  async charAttributes(parentMessageId: string) {
-    const attributes = await this.openai.sendMessage(attributesPrompt, {
-      parentMessageId,
-    })
+  async charHistory(charName: string) {
+    const promptResult = await this.openai.sendMessage(
+      charHistoryPrompt(charName),
+      {
+        conversationId: slug(charName),
+        completionParams: {
+          temperature: 0.2,
+        },
+      },
+    )
 
-    return attributes
+    const json: chatgpt.char.FullHistory = {
+      history: JSON.parse(promptResult.text).history,
+      conversationId: promptResult.conversationId,
+      id: promptResult.id,
+    }
+
+    return json
   }
 
-  async charStrenghts(parentMessageId: string) {
-    const strengths = await this.openai.sendMessage(strenghtsPrompt, {
-      parentMessageId,
-    })
+  async charAppearance(charName: string) {
+    const promptResult = await this.openai.sendMessage(
+      charAppearance(charName),
+      {
+        conversationId: slug(charName),
+        completionParams: {
+          temperature: 0.2,
+        },
+      },
+    )
 
-    return strengths
+    const json: chatgpt.char.Appearance = {
+      appearance: JSON.parse(promptResult.text).appearance,
+      conversationId: promptResult.conversationId,
+      id: promptResult.id,
+    }
+
+    return json
   }
 
-  async charWeaknesses(parentMessageId: string) {
-    const weaknesses = await this.openai.sendMessage(weaknessesPrompt, {
-      parentMessageId,
-    })
+  async charAttributes(messageOptions: SendMessageOptions) {
+    const attributes = await this.openai.sendMessage(
+      charAttributesPrompt,
+      messageOptions,
+    )
 
-    return weaknesses
+    const json: chatgpt.char.Attributes = JSON.parse(attributes.text).attributes
+
+    return json
+  }
+
+  async charStrenghts(messageOptions: SendMessageOptions) {
+    const strengths = await this.openai.sendMessage(
+      charStrenghtsPrompt,
+      messageOptions,
+    )
+
+    const json: chatgpt.char.Strengths = JSON.parse(strengths.text).strengths
+
+    return json
+  }
+
+  async charWeaknesses(messageOptions: SendMessageOptions) {
+    const weaknesses = await this.openai.sendMessage(
+      charWeaknessesPrompt,
+      messageOptions,
+    )
+
+    const json: chatgpt.char.Weaknesses = JSON.parse(weaknesses.text).weaknesses
+
+    return json
   }
 }
