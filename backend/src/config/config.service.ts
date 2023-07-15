@@ -33,4 +33,8 @@ export class ConfigService implements Env {
   get OPENAI_API_KEY(): string {
     return this.service.get<string>('OPENAI_API_KEY')
   }
+
+  get DREAMSTUDIO_API_KEY(): string {
+    return this.service.get<string>('DREAMSTUDIO_API_KEY')
+  }
 }

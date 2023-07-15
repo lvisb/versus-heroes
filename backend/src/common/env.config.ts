@@ -33,4 +33,8 @@ export class Env {
   @Expose()
   @IsDefined()
   OPENAI_API_KEY: string
+
+  @Expose()
+  @IsDefined()
+  DREAMSTUDIO_API_KEY: string
 }
