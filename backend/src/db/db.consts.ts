@@ -2,6 +2,7 @@ export namespace db {
   export enum CharType {
     HERO = 'hero',
     VILLAIN = 'villain',
+    BOTH = 'both',
   }
 
   export namespace functions {
