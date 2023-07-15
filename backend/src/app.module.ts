@@ -5,6 +5,7 @@ import { CharModule } from '#api/v1/char/char.module.js'
 import { ConfigModule } from '#config/config.module.js'
 import { ChatgptModule } from '#chatgpt/chatgpt.module.js'
 import { DbModule } from '#db/db.module.js'
+import { DreamstudioModule } from './dreamstudio/dreamstudio.module.js'
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { DbModule } from '#db/db.module.js'
     SignUpModule,
     CharModule,
     ChatgptModule,
+    DreamstudioModule,
   ],
   controllers: [],
   providers: [],
