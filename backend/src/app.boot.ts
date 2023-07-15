@@ -37,7 +37,12 @@ export class App {
     if (this.app) throw new Error('[App] Already started')
 
     // app instance
-    this.app = await NestFactory.create(AppModule)
+    this.app = await NestFactory.create(AppModule, {
+      logger:
+        process.env.NODE_ENV === 'development'
+          ? ['error', 'warn', 'debug', 'log', 'verbose']
+          : ['error', 'warn'],
+    })
 
     // makes class-validator use nestjs
     // for dependency injection, allowing
