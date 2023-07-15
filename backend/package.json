@@ -11,7 +11,8 @@
     "#common/*": "./dist/src/common/*"
   },
   "scripts": {
-    "supabase-types": "supabase gen types typescript --linked > src/common/types/supabase.types.ts",
+    "typeorm": "typeorm-ts-node-esm",
+    "typeorm:migration:run": "env-cmd npm run typeorm migration:run -- -d ./src/db/db.config.ts",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
@@ -37,10 +38,12 @@
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
+    "pg": "^8.11.1",
     "postgres": "^3.3.5",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
-    "slug": "^8.2.2"
+    "slug": "^8.2.2",
+    "typeorm": "^0.3.17"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.3",
@@ -56,6 +59,7 @@
     "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^5.60.0",
     "@typescript-eslint/parser": "^5.60.0",
+    "env-cmd": "^10.1.0",
     "eslint": "^8.43.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",

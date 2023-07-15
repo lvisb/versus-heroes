@@ -4,9 +4,17 @@ import { SignUpModule } from '#api/v1/sign-up/sign-up.module.js'
 import { CharModule } from '#api/v1/char/char.module.js'
 import { ConfigModule } from '#config/config.module.js'
 import { ChatgptModule } from '#chatgpt/chatgpt.module.js'
+import { DbModule } from '#db/db.module.js'
 
 @Module({
-  imports: [ConfigModule, AuthModule, SignUpModule, CharModule, ChatgptModule],
+  imports: [
+    ConfigModule,
+    DbModule,
+    AuthModule,
+    SignUpModule,
+    CharModule,
+    ChatgptModule,
+  ],
   controllers: [],
   providers: [],
   exports: [],

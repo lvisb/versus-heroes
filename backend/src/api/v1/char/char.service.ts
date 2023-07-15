@@ -1,28 +1,26 @@
 import { ChatGptService } from '#chatgpt/chatgpt.service.js'
-import { SupabaseClient } from '#supabase/supabase.provider.js'
-import { Inject, Injectable } from '@nestjs/common'
-import supabase from '@supabase/supabase-js'
+import { DbService } from '#db/db.service.js'
+import { Injectable } from '@nestjs/common'
 
 @Injectable()
 export class CharService {
   constructor(
-    @Inject(SupabaseClient)
-    private readonly subabaseClient: supabase.SupabaseClient,
+    private readonly dbService: DbService,
     private readonly chatGptService: ChatGptService,
   ) {}
 
-  findDbCharByName(name: string) {
-    return this.subabaseClient
-      .from('characters')
-      .select('*')
-      .like('name', name)
-      .limit(1)
+  findDbCharByName(charName: string) {
+    return this.dbService.charRepo
+      .createQueryBuilder('c')
+      .where('LOWER(c.char_name) = :charName', {
+        charName: charName.trim().toLowerCase(),
+      })
   }
 
   async findAiCharByName(name: string) {
     const char = await this.chatGptService.charExists(name)
 
-    if(!char.characterName) return null
+    if (!char.characterName) return null
 
     if (char.alsoKnown?.length > 0) {
       const mainChar = await this.chatGptService.findMainName(

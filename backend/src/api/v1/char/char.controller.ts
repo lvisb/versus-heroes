@@ -15,26 +15,28 @@ export class CharController {
   async char(@Query() dto: CharNameDto) {
     const { name } = dto
 
-    const { data } = await this.charService.findDbCharByName(name)
+    const char = await this.charService.findDbCharByName(name).getOne()
 
-    if (data.length === 0) throw new CharacterNotFoundException()
+    if (!char) throw new CharacterNotFoundException()
 
-    return HttpResponse.createBody({ charProfile: data[0] })
+    return HttpResponse.createBody({ charProfile: char })
   }
 
   @Post()
   async createChar(@Body() dto: CharNameDto) {
     const { name } = dto
 
-    const dbChar = await this.charService.findDbCharByName(name)
+    const dbChar = await this.charService.findDbCharByName(name).getOne()
 
-    if (dbChar.data.length > 0) throw new CharacterAlreadyExists()
+    if (dbChar) throw new CharacterAlreadyExists()
 
     const aiChar = await this.charService.findAiCharByName(name)
 
-    if(!aiChar) throw new CharacterNotFoundException()
+    if (!aiChar) throw new CharacterNotFoundException()
 
-    const profile = await this.charService.generateCharacterProfile(aiChar.characterName)
+    const profile = await this.charService.generateCharacterProfile(
+      aiChar.characterName,
+    )
 
     return HttpResponse.createBody({
       ...profile,
