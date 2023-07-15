@@ -1,20 +1,20 @@
-import { CharType } from './char.types.js'
+import { db } from '#db/db.consts.js'
 
 export namespace chatgpt {
   export namespace char {
     export interface BaseResult {
       id: string
-      conversationId: string
+      conversationId?: string
     }
 
-    export interface CharExists {
+    export interface Char {
       characterName: string | null
-      alsoKnown: []
-      type: CharType
+      alsoKnown: string[]
     }
 
     export interface Summary extends BaseResult {
       summary: string
+      type: db.CharType
     }
 
     export interface FullHistory extends BaseResult {
@@ -39,7 +39,7 @@ export namespace chatgpt {
     }
 
     export interface Strengths extends BaseResult {
-      strenghts: string[]
+      strengths: string[]
     }
 
     export interface Weaknesses extends BaseResult {

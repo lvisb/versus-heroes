@@ -1,3 +1,4 @@
+import { CharAttributes } from '#common/types/char-attributes.types.js'
 import { db } from '#db/db.consts.js'
 import {
   Column,
@@ -23,6 +24,14 @@ export class Character {
   @Column({ type: 'varchar', length: 255, name: 'char_name' })
   charName: string
 
+  @Column({
+    type: 'varchar',
+    length: 255,
+    name: 'profile_image_src',
+    nullable: true,
+  })
+  profileImageSrc: string
+
   @Index(`idx_${tableName}_also_known_as`)
   @Column({ type: 'varchar', length: 255, array: true, name: 'also_known_as' })
   alsoKnownAs: string[]
@@ -34,6 +43,24 @@ export class Character {
     enumName: 'enum_char_type',
   })
   charType: db.CharType
+
+  @Column({ type: 'text' })
+  summary: string
+
+  @Column({ type: 'text' })
+  history: string
+
+  @Column({ type: 'text' })
+  appearance: string
+
+  @Column({ type: 'jsonb' })
+  attributes: CharAttributes
+
+  @Column({ type: 'varchar', array: true })
+  strengths: string[]
+
+  @Column({ type: 'varchar', array: true })
+  weaknesses: string[]
 
   @Index(`idx_${tableName}_is_active`)
   @Column({ type: 'boolean', default: false, name: 'is_active' })
