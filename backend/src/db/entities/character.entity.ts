@@ -19,7 +19,7 @@ export class Character {
   })
   charId: string
 
-  @Index(`idx_${tableName}_char_name`)
+  @Index(`idx_${tableName}_char_name`, { unique: true })
   @Column({ type: 'varchar', length: 255, name: 'char_name' })
   charName: string
 
