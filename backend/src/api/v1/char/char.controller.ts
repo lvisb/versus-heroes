@@ -34,12 +34,10 @@ export class CharController {
 
     if (!aiChar) throw new CharacterNotFoundException()
 
-    const profile = await this.charService.generateCharacterProfile(
-      aiChar.characterName,
-    )
+    const char = await this.charService.generateCharacterProfile(aiChar)
 
-    return HttpResponse.createBody({
-      ...profile,
-    })
+    await this.charService.saveCharacter(char)
+
+    return HttpResponse.createBody(char)
   }
 }

@@ -1,5 +1,5 @@
 import { ChatGptClient } from '#chatgpt/chatgpt.provider.js'
-import { Inject, Injectable } from '@nestjs/common'
+import { Inject, Injectable, Logger } from '@nestjs/common'
 import { ChatGPTAPI, SendMessageOptions } from 'chatgpt'
 import slug from 'slug'
 import { chatgpt } from '#common/types/chatgpt.types.js'
@@ -8,14 +8,18 @@ import {
   charAttributesPrompt,
   charExistsPrompt,
   charHistoryPrompt,
+  charKnownByAnotherNamePrompt,
   charMainNamePrompt,
   charStrenghtsPrompt,
   charSummaryPrompt,
   charWeaknessesPrompt,
 } from './prompts/char.prompt.js'
+import { randomUUID } from 'crypto'
 
 @Injectable()
 export class ChatGptService {
+  private readonly logger = new Logger(ChatGptService.name)
+
   constructor(
     @Inject(ChatGptClient)
     private readonly openai: ChatGPTAPI,
@@ -24,12 +28,28 @@ export class ChatGptService {
   async charExists(charName: string) {
     const charExists = await this.openai.sendMessage(charExistsPrompt(charName))
 
+    this.logger.log(charExists.text, 'charExists')
+
     const promptResultJson = JSON.parse(charExists.text)
 
-    const json: chatgpt.char.CharExists = {
+    const json: chatgpt.char.Char = {
       ...promptResultJson,
-      conversationId: charExists.conversationId,
       id: charExists.id,
+    }
+
+    return json
+  }
+
+  async charAlsoKnowAs(charName: string) {
+    const promptResult = await this.openai.sendMessage(
+      charKnownByAnotherNamePrompt(charName),
+    )
+
+    this.logger.log(promptResult.text, 'charAlsoKnowAs')
+
+    const json: chatgpt.char.Char = {
+      alsoKnown: promptResult.text.split('; '),
+      characterName: charName,
     }
 
     return json
@@ -40,10 +60,11 @@ export class ChatGptService {
       charMainNamePrompt([...charName, ...alsoKnown]),
     )
 
-    const json: chatgpt.char.CharExists = {
-      ...JSON.parse(promptResult.text),
-      conversationId: promptResult.conversationId,
-      id: promptResult.id,
+    this.logger.log(promptResult.text, 'findMainName')
+
+    const json: chatgpt.char.Char = {
+      characterName: promptResult.text,
+      alsoKnown,
     }
 
     return json
@@ -51,14 +72,19 @@ export class ChatGptService {
 
   async charSummary(charName: string) {
     const summary = await this.openai.sendMessage(charSummaryPrompt(charName), {
-      conversationId: slug(charName),
+      conversationId: slug(charName) + '-' + randomUUID(),
       completionParams: {
         temperature: 0.2,
       },
     })
 
+    this.logger.log(summary.text, 'charSummary')
+
+    const parsedJson = JSON.parse(summary.text)
+
     const json: chatgpt.char.Summary = {
-      summary: JSON.parse(summary.text).summary,
+      summary: parsedJson.summary,
+      type: parsedJson.char_type.toLowerCase(),
       conversationId: summary.conversationId,
       id: summary.id,
     }
@@ -76,6 +102,8 @@ export class ChatGptService {
         },
       },
     )
+
+    this.logger.log(promptResult.text, 'charHistory')
 
     const json: chatgpt.char.FullHistory = {
       history: promptResult.text,
@@ -97,6 +125,8 @@ export class ChatGptService {
       },
     )
 
+    this.logger.log(promptResult.text, 'charAppearance')
+
     const json: chatgpt.char.Appearance = {
       appearance: promptResult.text,
       conversationId: promptResult.conversationId,
@@ -112,6 +142,8 @@ export class ChatGptService {
       messageOptions,
     )
 
+    this.logger.log(attributes.text, 'charAttributes')
+
     const json: chatgpt.char.Attributes = JSON.parse(attributes.text)
 
     return json
@@ -123,7 +155,9 @@ export class ChatGptService {
       messageOptions,
     )
 
-    const json: chatgpt.char.Strengths = JSON.parse(strengths.text).strengths
+    this.logger.log(strengths.text, 'charStrenghts')
+
+    const json: chatgpt.char.Strengths = JSON.parse(strengths.text)
 
     return json
   }
@@ -134,7 +168,9 @@ export class ChatGptService {
       messageOptions,
     )
 
-    const json: chatgpt.char.Weaknesses = JSON.parse(weaknesses.text).weaknesses
+    this.logger.log(weaknesses.text, 'charWeaknesses')
+
+    const json: chatgpt.char.Weaknesses = JSON.parse(weaknesses.text)
 
     return json
   }

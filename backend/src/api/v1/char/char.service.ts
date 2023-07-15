@@ -1,5 +1,8 @@
 import { ChatGptService } from '#chatgpt/chatgpt.service.js'
+import { chatgpt } from '#common/types/chatgpt.types.js'
 import { DbService } from '#db/db.service.js'
+import { Character } from '#db/entities/character.entity.js'
+import { DreamStudioService } from '#dreamstudio/dreamstudio.service.js'
 import { Injectable } from '@nestjs/common'
 
 @Injectable()
@@ -7,6 +10,7 @@ export class CharService {
   constructor(
     private readonly dbService: DbService,
     private readonly chatGptService: ChatGptService,
+    private readonly dreamStudioService: DreamStudioService,
   ) {}
 
   findDbCharByName(charName: string) {
@@ -17,10 +21,14 @@ export class CharService {
       })
   }
 
-  async findAiCharByName(name: string) {
+  async findAiCharByName(name: string): Promise<chatgpt.char.Char> {
     const char = await this.chatGptService.charExists(name)
 
     if (!char.characterName) return null
+
+    char.alsoKnown = (
+      await this.chatGptService.charAlsoKnowAs(char.characterName)
+    ).alsoKnown
 
     if (char.alsoKnown?.length > 0) {
       const mainChar = await this.chatGptService.findMainName(
@@ -34,12 +42,18 @@ export class CharService {
     return char
   }
 
-  async generateCharacterProfile(charName: string) {
-    const summary = await this.chatGptService.charSummary(charName)
+  async generateCharacterProfile(gptchar: chatgpt.char.Char) {
+    const { characterName, alsoKnown } = gptchar
 
-    const { history } = await this.chatGptService.charHistory(charName)
+    const summary = await this.chatGptService.charSummary(characterName)
 
-    const { appearance } = await this.chatGptService.charAppearance(charName)
+    const { history } = await this.chatGptService.charHistory(characterName)
+
+    const { appearance } = await this.chatGptService.charAppearance(
+      characterName,
+    )
+
+    const image = await this.generateCharacterImage(appearance)
 
     const attributes = await this.chatGptService.charAttributes({
       conversationId: summary.conversationId,
@@ -56,13 +70,27 @@ export class CharService {
       parentMessageId: summary.id,
     })
 
-    return {
-      summary: summary.summary,
-      history,
-      appearance,
-      attributes,
-      strengths,
-      weaknesses,
-    }
+    const char = new Character()
+
+    char.charName = characterName
+    char.summary = summary.summary
+    char.history = history
+    char.appearance = appearance
+    char.attributes = attributes
+    char.strengths = strengths.strengths
+    char.weaknesses = weaknesses.weaknesses
+    char.charType = summary.type
+    char.alsoKnownAs = alsoKnown
+    char.profileImageSrc = ''
+
+    return char
+  }
+
+  generateCharacterImage(characterDescription: string) {
+    return this.dreamStudioService.generateCharacterImage(characterDescription)
+  }
+
+  saveCharacter(char: Character) {
+    return this.dbService.charRepo.save(char)
   }
 }
