@@ -32,11 +32,11 @@ export class Character {
   })
   authorId: string
 
-  @Index(`idx_${tableName}_char_name`, { unique: true })
+  @Index(`idx_${tableName}_char_name`)
   @Column({ type: 'varchar', length: 255, name: 'char_name' })
   charName: string
 
-  @Index(`idx_${tableName}_char_name_slug`, { unique: true })
+  @Index(`idx_${tableName}_char_name_slug`)
   @Column({ type: 'varchar', length: 255, name: 'char_name_slug' })
   charNameSlug: string
 

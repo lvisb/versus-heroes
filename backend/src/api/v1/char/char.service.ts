@@ -20,12 +20,23 @@ export class CharService {
     private readonly supabaseClient: supabase.SupabaseClient,
   ) {}
 
+  findCharById(charId: string, authorId: string) {
+    return this.dbService.charRepo.createQueryBuilder('c').where({
+      charId,
+      authorId,
+    })
+  }
+
   findDbCharByName(charName: string) {
     return this.dbService.charRepo
       .createQueryBuilder('c')
       .where('c.charNameSlug = :charName', {
-        charName: slug(charName)
+        charName: slug(charName),
       })
+  }
+
+  deleteChar(char: Character) {
+    return this.dbService.charRepo.softRemove(char)
   }
 
   async findAiCharByName(name: string): Promise<chatgpt.char.Char> {

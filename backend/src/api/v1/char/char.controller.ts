@@ -1,7 +1,9 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  Param,
   Post,
   Query,
   Req,
@@ -14,6 +16,7 @@ import { CharacterNotFoundException } from '#common/exceptions/character-not-fou
 import { CharacterAlreadyExists } from '#common/exceptions/character-already-exists.exception.js'
 import { TokenGuard } from '../auth/guards/token.guard.js'
 import { SignedInRequest } from '#common/types/signed-in-request.type.js'
+import { CharIdDto } from './dtos/char-id.dto.js'
 
 @UseGuards(TokenGuard)
 @Controller('api/v1/char')
@@ -29,6 +32,20 @@ export class CharController {
     if (!char) throw new CharacterNotFoundException()
 
     return HttpResponse.createBody({ charProfile: char })
+  }
+
+  @Delete(':id')
+  async deleteChar(@Req() req: SignedInRequest, @Param() dto: CharIdDto) {
+    const char = await this.charService
+      .findCharById(dto.id, req.user.sub)
+      .select(['c.charId'])
+      .getOne()
+
+    if (!char) throw new CharacterNotFoundException()
+
+    await this.charService.deleteChar(char)
+
+    return HttpResponse.createBody({})
   }
 
   @Post()
