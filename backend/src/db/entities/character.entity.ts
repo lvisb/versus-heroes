@@ -24,6 +24,10 @@ export class Character {
   @Column({ type: 'varchar', length: 255, name: 'char_name' })
   charName: string
 
+  @Index(`idx_${tableName}_char_name_slug`, { unique: true })
+  @Column({ type: 'varchar', length: 255, name: 'char_name_slug' })
+  charNameSlug: string
+
   @Column({
     type: 'varchar',
     length: 255,

@@ -1,5 +1,12 @@
-import { TokenGuard } from '#common/guards/token.guard.js'
-import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Query,
+  Req,
+  UseGuards,
+} from '@nestjs/common'
 import { CharService } from './char.service.js'
 import { HttpResponse } from '#common/utils/http-response.util.js'
 import { CharNameDto } from './dtos/char-name.dto.js'
@@ -26,13 +33,16 @@ export class CharController {
   async createChar(@Body() dto: CharNameDto) {
     const { name } = dto
 
-    const dbChar = await this.charService.findDbCharByName(name).getOne()
-
-    if (dbChar) throw new CharacterAlreadyExists()
-
     const aiChar = await this.charService.findAiCharByName(name)
 
     if (!aiChar) throw new CharacterNotFoundException()
+
+    const dbChar = await this.charService
+      .findDbCharByName(aiChar.characterName)
+      .select(['c.charName', 'c.charId'])
+      .getOne()
+
+    if (dbChar) throw new CharacterAlreadyExists()
 
     const char = await this.charService.generateCharacterProfile(aiChar)
 

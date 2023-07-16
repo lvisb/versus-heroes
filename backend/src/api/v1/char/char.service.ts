@@ -3,7 +3,12 @@ import { chatgpt } from '#common/types/chatgpt.types.js'
 import { DbService } from '#db/db.service.js'
 import { Character } from '#db/entities/character.entity.js'
 import { DreamStudioService } from '#dreamstudio/dreamstudio.service.js'
-import { Injectable } from '@nestjs/common'
+import { SupabaseClient } from '#supabase/supabase.provider.js'
+import { Inject, Injectable } from '@nestjs/common'
+import supabase from '@supabase/supabase-js'
+import slug from 'slug'
+import { decode } from 'base64-arraybuffer'
+import { CharacterImg } from '#db/entities/character_img.entity.js'
 
 @Injectable()
 export class CharService {
@@ -11,13 +16,15 @@ export class CharService {
     private readonly dbService: DbService,
     private readonly chatGptService: ChatGptService,
     private readonly dreamStudioService: DreamStudioService,
+    @Inject(SupabaseClient)
+    private readonly supabaseClient: supabase.SupabaseClient,
   ) {}
 
   findDbCharByName(charName: string) {
     return this.dbService.charRepo
       .createQueryBuilder('c')
-      .where('LOWER(c.char_name) = :charName', {
-        charName: charName.trim().toLowerCase(),
+      .where('c.charNameSlug = :charName', {
+        charName: slug(charName)
       })
   }
 
@@ -53,8 +60,6 @@ export class CharService {
       characterName,
     )
 
-    const image = await this.generateCharacterImage(appearance)
-
     const attributes = await this.chatGptService.charAttributes({
       conversationId: summary.conversationId,
       parentMessageId: summary.id,
@@ -73,6 +78,7 @@ export class CharService {
     const char = new Character()
 
     char.charName = characterName
+    char.charNameSlug = slug(characterName)
     char.summary = summary.summary
     char.history = history
     char.appearance = appearance
@@ -81,9 +87,24 @@ export class CharService {
     char.weaknesses = weaknesses.weaknesses
     char.charType = summary.type
     char.alsoKnownAs = alsoKnown
-    char.profileImageSrc = ''
+    char.profileImageSrc = char.charNameSlug + '.jpg'
+
+    if (!(await this.characterImageExists(char.charName))) {
+      const image = await this.generateCharacterImage(appearance)
+
+      await this.uploadCharacterImage(char, image.base64)
+      await this.saveCharacterImage(char)
+    }
 
     return char
+  }
+
+  async characterImageExists(charName: string) {
+    const img = await this.dbService.charImageRepo.findOne({
+      where: { charNameSlug: slug(charName) },
+    })
+
+    return !!img
   }
 
   generateCharacterImage(characterDescription: string) {
@@ -92,5 +113,24 @@ export class CharService {
 
   saveCharacter(char: Character) {
     return this.dbService.charRepo.save(char)
+  }
+
+  saveCharacterImage(char: Character) {
+    const img = new CharacterImg()
+
+    img.charNameSlug = char.charNameSlug
+    img.imagePath = char.profileImageSrc
+
+    return this.dbService.charImageRepo.save(img)
+  }
+
+  async uploadCharacterImage(char: Character, base64Image: string) {
+    const { error } = await this.supabaseClient.storage
+      .from('characters')
+      .upload(`public/${char.profileImageSrc}`, decode(base64Image), {
+        contentType: 'image/jpeg',
+      })
+
+    if (error) console.error(error)
   }
 }

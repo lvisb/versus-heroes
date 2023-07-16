@@ -12,4 +12,8 @@ export namespace db {
   export namespace characters {
     export const tableName = 'characters'
   }
+
+  export namespace charactersImg {
+    export const tableName = 'characters_img'
+  }
 }

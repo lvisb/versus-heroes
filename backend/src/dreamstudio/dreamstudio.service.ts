@@ -23,13 +23,13 @@ export class DreamStudioService {
   async generateCharacterImage(
     prompt: string,
   ): Promise<DreamStudioResponseArtifact> {
-    return Promise.resolve(responseMock.artifacts[0])
+    // return Promise.resolve(responseMock.artifacts[0])
 
     try {
       const { data } = await this.client.post<DreamStudioResponse>('', {
         samples: 1,
-        steps: 50,
-        style_present: 'cinematic',
+        steps: 70,
+        style_present: 'isometric',
         text_prompts: [{ text: prompt }],
       })
 
