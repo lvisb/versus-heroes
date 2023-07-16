@@ -9,6 +9,14 @@ export namespace db {
     export const emailExists = `fn_email_exists`
   }
 
+  export namespace auth {
+    export const schema = 'auth'
+
+    export namespace users {
+      export const tableName = 'users'
+    }
+  }
+
   export namespace characters {
     export const tableName = 'characters'
   }

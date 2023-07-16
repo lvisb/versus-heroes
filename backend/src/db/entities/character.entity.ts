@@ -6,9 +6,12 @@ import {
   DeleteDateColumn,
   Entity,
   Index,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm'
+import { User } from './auth.user.entity.js'
 
 const tableName = db.characters.tableName
 
@@ -19,6 +22,15 @@ export class Character {
     primaryKeyConstraintName: `pkey_${tableName}_char_id`,
   })
   charId: string
+
+  @Index(`idx_${tableName}_author_id`)
+  @Column({ type: 'uuid', name: 'author_id' })
+  @ManyToOne(() => User, (user) => user.id)
+  @JoinColumn({
+    name: 'author_id',
+    referencedColumnName: 'id',
+  })
+  authorId: string
 
   @Index(`idx_${tableName}_char_name`, { unique: true })
   @Column({ type: 'varchar', length: 255, name: 'char_name' })
