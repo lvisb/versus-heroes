@@ -34,6 +34,23 @@ export class CharController {
     return HttpResponse.createBody({ charProfile: char })
   }
 
+  @Get('list')
+  async charList(@Req() req: SignedInRequest) {
+    const chars = await this.charService
+      .findCharsByAuthorId(req.user.sub)
+      .select([
+        'c.charId',
+        'c.charName',
+        'c.isActive',
+        'c.createdAt',
+        'c.updatedAt',
+      ])
+      .orderBy('c.createdAt', 'DESC')
+      .getMany()
+
+    return HttpResponse.createBody({ chars })
+  }
+
   @Delete(':id')
   async deleteChar(@Req() req: SignedInRequest, @Param() dto: CharIdDto) {
     const char = await this.charService

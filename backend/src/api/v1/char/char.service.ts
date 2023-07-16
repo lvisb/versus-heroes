@@ -39,6 +39,12 @@ export class CharService {
     return this.dbService.charRepo.softRemove(char)
   }
 
+  findCharsByAuthorId(authorId: string) {
+    return this.dbService.charRepo.createQueryBuilder('c').where({
+      authorId,
+    })
+  }
+
   async findAiCharByName(name: string): Promise<chatgpt.char.Char> {
     const char = await this.chatGptService.charExists(name)
 
