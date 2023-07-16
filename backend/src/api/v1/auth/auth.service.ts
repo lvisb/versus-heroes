@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
-import { SupabaseStrategy } from './auth.stragegy.js'
 import { SignInDto } from './dtos/sign-in.dto.js'
+import { SupabaseStrategy } from './strategies/supabase.strategy.js'
 
 @Injectable()
 export class AuthService {
