@@ -36,6 +36,7 @@
     "class-validator": "^0.14.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-unused-imports": "^2.0.0",
+    "nanoid": "^4.0.2",
     "nestjs-i18n": "^10.2.6",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
