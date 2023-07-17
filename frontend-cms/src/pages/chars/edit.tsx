@@ -7,6 +7,7 @@ import { Checkbox } from "../../components/form/checkbox";
 import { TextField } from "../../components/form/textfield";
 import { Tags } from "../../components/form/tags";
 import { CharRole } from "../../components/form/char-role";
+import { TextArea } from "../../components/form/textarea";
 
 export const CharEdit: React.FC<IResourceComponentsProps> = () => {
   const useFormMethods = useForm();
@@ -38,8 +39,12 @@ export const CharEdit: React.FC<IResourceComponentsProps> = () => {
               <TextField fieldName="charNameSlug" i18nPath="char.fields" />
             </Grid>
 
-            <Grid item xs={12} sx={{ marginTop: spacing(1) }}>
+            <Grid item xs={12} sx={{ marginTop: spacing(1), marginBottom: spacing(2) }}>
               <Tags fieldName="alsoKnownAs" i18nPath="char.fields" />
+            </Grid>
+
+            <Grid item xs={12}>
+              <TextArea fieldName="summary" i18nPath="char.fields" />
             </Grid>
 
             <Grid item xs={12}>
