@@ -17,6 +17,7 @@ import { CharacterAlreadyExists } from '#common/exceptions/character-already-exi
 import { TokenGuard } from '../auth/guards/token.guard.js'
 import { SignedInRequest } from '#common/types/signed-in-request.type.js'
 import { CharIdDto } from './dtos/char-id.dto.js'
+import { PaginationDto } from '#common/dtos/pagination.dto.js'
 
 @UseGuards(TokenGuard)
 @Controller('api/v1/char')
@@ -35,7 +36,14 @@ export class CharController {
   }
 
   @Get('list')
-  async charList(@Req() req: SignedInRequest) {
+  async charList(
+    @Req() req: SignedInRequest,
+    @Query() pagination: PaginationDto,
+  ) {
+    const totalChars = await this.charService
+      .findCharsByAuthorId(req.user.sub)
+      .getCount()
+
     const chars = await this.charService
       .findCharsByAuthorId(req.user.sub)
       .select([
@@ -45,10 +53,17 @@ export class CharController {
         'c.createdAt',
         'c.updatedAt',
       ])
+      .skip((pagination.currentPage - 1) * pagination.itemsPerPage)
+      .take(pagination.itemsPerPage)
       .orderBy('c.createdAt', 'DESC')
       .getMany()
 
-    return HttpResponse.createBody({ chars })
+    return HttpResponse.createBody({
+      chars,
+      totalChars,
+      currentPage: pagination.currentPage,
+      itemsPerPage: pagination.itemsPerPage,
+    })
   }
 
   @Delete(':id')
