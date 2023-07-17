@@ -5,7 +5,11 @@ import { Controller } from "react-hook-form";
 import { useFormField } from "../../hooks/use-form-field.hook";
 import { FormElement } from "../../types/form-element.type";
 
-export const Tags = ({ fieldName, i18nPath }: FormElement) => {
+interface TagsProps extends FormElement {
+  maxTags?: number;
+}
+
+export const Tags = ({ fieldName, i18nPath, maxTags }: TagsProps) => {
   const { formContext, label } = useFormField({ fieldName, i18nPath });
 
   const { control, getValues } = formContext;
@@ -15,6 +19,8 @@ export const Tags = ({ fieldName, i18nPath }: FormElement) => {
   const defaultValue = getValues(fieldName);
 
   const handleChange = (_: SyntheticEvent, newValue: string[]) => {
+    if(maxTags && newValue.length > maxTags) return;
+
     setValue(newValue);
   };
 
@@ -37,7 +43,7 @@ export const Tags = ({ fieldName, i18nPath }: FormElement) => {
             value={value}
             onChange={handleChange}
             renderInput={(params) => (
-              <TextField {...params} variant="outlined" label={label} />
+              <TextField {...params} variant="outlined" label={label} helperText={maxTags ? `(maximum of ${maxTags})` : undefined}/>
             )}
           />
         );
