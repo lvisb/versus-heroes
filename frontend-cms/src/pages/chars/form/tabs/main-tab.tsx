@@ -27,7 +27,7 @@ export const MainTab = () => {
         xs={12}
         sx={{ marginTop: spacing(1), marginBottom: spacing(2) }}
       >
-        <Tags fieldName="alsoKnownAs" i18nPath="char.fields" />
+        <Tags fieldName="alsoKnownAs" i18nPath="char.fields" maxTags={5} />
       </Grid>
 
       <Grid item xs={12}>

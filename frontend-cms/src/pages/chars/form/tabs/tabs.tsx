@@ -5,6 +5,7 @@ import { ReactNode } from "react";
 import { AttributesTab } from "./attributes-tab";
 import { BioTab } from "./bio-tab";
 import { MainTab } from "./main-tab";
+import { TraitsTab } from "./traits-tab";
 
 export const Tabs = () => {
   const [value, setValue] = React.useState("1");
@@ -33,6 +34,10 @@ export const Tabs = () => {
 
       <CustomTabPanel value="3">
         <AttributesTab />
+      </CustomTabPanel>
+
+      <CustomTabPanel value="4">
+        <TraitsTab />
       </CustomTabPanel>
     </TabContext>
   );
