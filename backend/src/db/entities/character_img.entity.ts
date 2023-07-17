@@ -5,8 +5,11 @@ import {
   DeleteDateColumn,
   Entity,
   Index,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm'
+import { Character } from './character.entity.js'
 
 const tableName = db.charactersImg.tableName
 
@@ -18,9 +21,15 @@ export class CharacterImg {
   })
   imageId: string
 
-  @Index(`idx_${tableName}_char_name_slug`, { unique: true })
-  @Column({ type: 'varchar', length: 255, name: 'char_name_slug' })
-  charNameSlug: string
+  @Index(`idx_${tableName}_character_id`)
+  @Column({ type: 'uuid', name: 'character_id' })
+  @ManyToOne(() => Character, (char) => char.charId)
+  @JoinColumn({
+    name: 'character_id',
+    referencedColumnName: 'charId',
+    foreignKeyConstraintName: `fk_${tableName}_character_id`,
+  })
+  characterId: string
 
   @Column({ type: 'varchar', length: 255, name: 'image_path' })
   imagePath: string

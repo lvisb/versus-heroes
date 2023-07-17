@@ -8,10 +8,12 @@ import {
   Index,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm'
 import { User } from './auth.user.entity.js'
+import { CharacterImg } from './character_img.entity.js'
 
 const tableName = db.characters.tableName
 
@@ -29,6 +31,7 @@ export class Character {
   @JoinColumn({
     name: 'author_id',
     referencedColumnName: 'id',
+    foreignKeyConstraintName: `fk_${tableName}_author_id`,
   })
   authorId: string
 
@@ -41,12 +44,17 @@ export class Character {
   charNameSlug: string
 
   @Column({
-    type: 'varchar',
-    length: 255,
-    name: 'profile_image_src',
+    type: 'uuid',
+    name: 'profile_image_id',
     nullable: true,
   })
-  profileImageSrc: string
+  @ManyToOne(() => CharacterImg, (image) => image.imageId)
+  @JoinColumn({
+    name: 'profile_image_id',
+    referencedColumnName: 'imageId',
+    foreignKeyConstraintName: `fk_${tableName}_profile_image_id`,
+  })
+  profileImageId: string
 
   @Index(`idx_${tableName}_also_known_as`)
   @Column({ type: 'varchar', length: 255, array: true, name: 'also_known_as' })
@@ -93,4 +101,7 @@ export class Character {
   @Index(`idx_${tableName}_deleted_at`)
   @DeleteDateColumn({ name: 'deleted_at' })
   deletedAt: Date
+
+  @OneToMany(() => CharacterImg, (image) => image.characterId)
+  images: CharacterImg[]
 }
