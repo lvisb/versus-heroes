@@ -2,6 +2,7 @@ import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Tab } from "@mui/material";
 import React from "react";
 import { ReactNode } from "react";
+import { BioTab } from "./bio-tab";
 import { MainTab } from "./main-tab";
 
 export const Tabs = () => {
@@ -23,6 +24,10 @@ export const Tabs = () => {
 
       <CustomTabPanel value="1">
         <MainTab />
+      </CustomTabPanel>
+
+      <CustomTabPanel value="2">
+        <BioTab />
       </CustomTabPanel>
     </TabContext>
   );

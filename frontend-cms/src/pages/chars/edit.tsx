@@ -6,7 +6,32 @@ import { FormProvider } from "react-hook-form";
 import { Tabs } from "./form/tabs/tabs";
 
 export const CharEdit: React.FC<IResourceComponentsProps> = () => {
-  const useFormMethods = useForm();
+  const useFormMethods = useForm({
+    defaultValues: {
+      charId: '',
+      charName: '',
+      charNameSlug: '',
+      charType: '',
+      summary: '',
+      history: '',
+      alsoKnownAs: [],
+      strengths: [],
+      weaknesses: [],
+      isActive: true,
+      attributes: {
+        speed: 0,
+        agility: 0,
+        defense: 0,
+        evasion: 0,
+        mobility: 0,
+        strength: 0,
+        vitality: 0,
+        endurance: 0,
+        technique: 0,
+        intelligence: 0,
+      }
+    }
+  });
 
   const {
     saveButtonProps,
