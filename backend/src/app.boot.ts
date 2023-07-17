@@ -53,9 +53,7 @@ export class App {
 
     // cors
     this.app.enableCors({
-      origin: [
-        // ...env().WEBSITE_BACKEND_CORS?.split(',')
-      ],
+      origin: [...App.configService.CORS_ORIGIN?.split(',')],
     })
 
     // global error handling, returning a pre-formatted

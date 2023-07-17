@@ -37,4 +37,8 @@ export class Env {
   @Expose()
   @IsDefined()
   DREAMSTUDIO_API_KEY: string
+
+  @Expose()
+  @IsDefined()
+  CORS_ORIGIN: string
 }

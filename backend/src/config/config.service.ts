@@ -37,4 +37,8 @@ export class ConfigService implements Env {
   get DREAMSTUDIO_API_KEY(): string {
     return this.service.get<string>('DREAMSTUDIO_API_KEY')
   }
+
+  get CORS_ORIGIN(): string {
+    return this.service.get<string>('CORS_ORIGIN')
+  }
 }
