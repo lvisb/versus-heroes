@@ -64,7 +64,6 @@ export class CharController {
     return HttpResponse.createBody({ char })
   }
 
-
   @Delete(':id')
   async deleteChar(@Req() req: SignedInRequest, @Param() dto: CharIdDto) {
     const char = await this.charService
@@ -99,6 +98,8 @@ export class CharController {
     char.authorId = req.user.sub
 
     await this.charService.saveCharacter(char)
+
+    await this.charService.generateCharacterImages(char)
 
     return HttpResponse.createBody({})
   }

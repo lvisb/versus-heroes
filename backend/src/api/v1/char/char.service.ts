@@ -2,13 +2,17 @@ import { ChatGptService } from '#chatgpt/chatgpt.service.js'
 import { chatgpt } from '#common/types/chatgpt.types.js'
 import { DbService } from '#db/db.service.js'
 import { Character } from '#db/entities/character.entity.js'
-import { DreamStudioService } from '#dreamstudio/dreamstudio.service.js'
+import {
+  DreamStudioResponseArtifact,
+  DreamStudioService,
+} from '#dreamstudio/dreamstudio.service.js'
 import { SupabaseClient } from '#supabase/supabase.provider.js'
 import { Inject, Injectable } from '@nestjs/common'
 import supabase from '@supabase/supabase-js'
 import slug from 'slug'
 import { decode } from 'base64-arraybuffer'
 import { CharacterImg } from '#db/entities/character_img.entity.js'
+import { nanoid } from 'nanoid'
 
 @Injectable()
 export class CharService {
@@ -21,10 +25,14 @@ export class CharService {
   ) {}
 
   findCharById(charId: string, authorId: string) {
-    return this.dbService.charRepo.createQueryBuilder('c').where({
-      charId,
-      authorId,
-    })
+    return this.dbService.charRepo
+      .createQueryBuilder('c')
+      .innerJoinAndSelect('c.profileImageId', 'profileImage')
+      .innerJoinAndSelect('c.images', 'images')
+      .where({
+        charId,
+        authorId,
+      })
   }
 
   findDbCharByName(charName: string) {
@@ -104,47 +112,63 @@ export class CharService {
     char.weaknesses = weaknesses.weaknesses
     char.charType = summary.type
     char.alsoKnownAs = alsoKnown
-    char.profileImageSrc = char.charNameSlug + '.jpg'
-
-    if (!(await this.characterImageExists(char.charName))) {
-      const image = await this.generateCharacterImage(appearance)
-
-      await this.uploadCharacterImage(char, image.base64)
-      await this.saveCharacterImage(char)
-    }
 
     return char
   }
 
-  async characterImageExists(charName: string) {
-    const img = await this.dbService.charImageRepo.findOne({
-      where: { charNameSlug: slug(charName) },
-    })
+  async generateCharacterImages(char: Character) {
+    const imageStyles: string[] = [
+      'isometric',
+      'analog-film',
+      'modeling-compound',
+    ]
+    const imagesIds: string[] = []
+    const images: DreamStudioResponseArtifact[] = []
 
-    return !!img
-  }
+    for (const style of imageStyles) {
+      images.push(
+        await this.dreamStudioService.generateCharacterImage(
+          char.appearance,
+          style,
+        ),
+      )
+    }
 
-  generateCharacterImage(characterDescription: string) {
-    return this.dreamStudioService.generateCharacterImage(characterDescription)
+    for (const [_, image] of images.entries()) {
+      const fileName = `${char.charNameSlug}-${nanoid(6)}.jpg`
+
+      await this.uploadCharacterImage(fileName, image.base64)
+
+      const dbImage = await this.saveCharacterImage(char, fileName)
+
+      imagesIds.push(dbImage.imageId)
+    }
+
+    char.profileImageId =
+      imagesIds[Math.floor(Math.random() * imagesIds.length)]
+
+    await this.saveCharacter(char)
+
+    return char
   }
 
   saveCharacter(char: Character) {
     return this.dbService.charRepo.save(char)
   }
 
-  saveCharacterImage(char: Character) {
+  saveCharacterImage(char: Character, fileName: string) {
     const img = new CharacterImg()
 
-    img.charNameSlug = char.charNameSlug
-    img.imagePath = char.profileImageSrc
+    img.characterId = char.charId
+    img.imagePath = fileName
 
     return this.dbService.charImageRepo.save(img)
   }
 
-  async uploadCharacterImage(char: Character, base64Image: string) {
+  async uploadCharacterImage(fileName: string, base64Image: string) {
     const { error } = await this.supabaseClient.storage
       .from('characters')
-      .upload(`public/${char.profileImageSrc}`, decode(base64Image), {
+      .upload(`public/${fileName}`, decode(base64Image), {
         contentType: 'image/jpeg',
       })
 
