@@ -22,6 +22,7 @@ export class DreamStudioService {
 
   async generateCharacterImage(
     prompt: string,
+    stylePreset: string,
   ): Promise<DreamStudioResponseArtifact> {
     // return Promise.resolve(responseMock.artifacts[0])
 
@@ -29,7 +30,7 @@ export class DreamStudioService {
       const { data } = await this.client.post<DreamStudioResponse>('', {
         samples: 1,
         steps: 70,
-        style_present: 'isometric',
+        style_present: stylePreset,
         text_prompts: [{ text: prompt }],
       })
 
