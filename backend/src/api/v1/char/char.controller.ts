@@ -24,17 +24,6 @@ import { PaginationDto } from '#common/dtos/pagination.dto.js'
 export class CharController {
   constructor(private readonly charService: CharService) {}
 
-  @Get()
-  async char(@Query() dto: CharNameDto) {
-    const { name } = dto
-
-    const char = await this.charService.findDbCharByName(name).getOne()
-
-    if (!char) throw new CharacterNotFoundException()
-
-    return HttpResponse.createBody({ charProfile: char })
-  }
-
   @Get('list')
   async charList(
     @Req() req: SignedInRequest,
@@ -63,6 +52,18 @@ export class CharController {
       itemsPerPage: pagination.itemsPerPage,
     })
   }
+
+  @Get(':id')
+  async char(@Req() req: SignedInRequest, @Param() dto: CharIdDto) {
+    const char = await this.charService
+      .findCharById(dto.id, req.user.sub)
+      .getOne()
+
+    if (!char) throw new CharacterNotFoundException()
+
+    return HttpResponse.createBody({ char })
+  }
+
 
   @Delete(':id')
   async deleteChar(@Req() req: SignedInRequest, @Param() dto: CharIdDto) {
