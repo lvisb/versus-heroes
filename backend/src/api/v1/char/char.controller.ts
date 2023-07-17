@@ -46,17 +46,15 @@ export class CharController {
 
     const chars = await this.charService
       .findCharsByAuthorId(req.user.sub)
-      .select([
-        'c.charId',
-        'c.charName',
-        'c.isActive',
-        'c.createdAt',
-        'c.updatedAt',
-      ])
+      .select('c.charId', 'id')
+      .addSelect('c.charName', 'charName')
+      .addSelect('c.isActive', 'isActive')
+      .addSelect('c.createdAt', 'createdAt')
+      .addSelect('c.updatedAt', 'updatedAt')
       .skip((pagination.currentPage - 1) * pagination.itemsPerPage)
       .take(pagination.itemsPerPage)
       .orderBy('c.createdAt', 'DESC')
-      .getMany()
+      .getRawMany()
 
     return HttpResponse.createBody({
       chars,
