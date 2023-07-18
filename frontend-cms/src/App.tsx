@@ -2,6 +2,7 @@ import { Authenticated, Refine } from "@refinedev/core";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 
 import {
+  AuthPage,
   ErrorComponent,
   notificationProvider,
   RefineSnackbarProvider,
@@ -34,6 +35,8 @@ import { Login } from "./pages/login";
 import { Register } from "./pages/register";
 import { charDataProvider } from "./dataProvider";
 import { queryClient } from "./common/query.client";
+import { RegisterSuccess } from "./pages/register/success";
+import { ForgotPasswordSuccess } from "./pages/forgotPassword/success";
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -120,7 +123,19 @@ function App() {
                 >
                   <Route path="/login" element={<Login />} />
                   <Route path="/register" element={<Register />} />
+                  <Route
+                    path="/register/success"
+                    element={<RegisterSuccess />}
+                  />
                   <Route path="/forgot-password" element={<ForgotPassword />} />
+                  <Route
+                    path="/forgot-password/success"
+                    element={<ForgotPasswordSuccess />}
+                  />
+                  <Route
+                    path="/update-password"
+                    element={<AuthPage type="updatePassword" />}
+                  />
                 </Route>
               </Routes>
 
