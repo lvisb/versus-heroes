@@ -48,6 +48,11 @@ export const authProvider: AuthBindings = {
     };
   },
   check: async () => {
+    const token =
+      localStorage.getItem(TOKEN_KEY) || sessionStorage.getItem(TOKEN_KEY);
+
+    if (!token) return { authenticated: false };
+
     try {
       await axiosInstance.post(`${api.baseUrl}/auth/validate-token`);
 
