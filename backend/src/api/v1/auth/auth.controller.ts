@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common'
+import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common'
 import { AuthService } from './auth.service.js'
 import { SignInDto } from './dtos/sign-in.dto.js'
 import { HttpResponse } from '#common/utils/http-response.util.js'
@@ -6,6 +6,8 @@ import { SupabaseAuthException } from '#common/exceptions/invalid-crdentials.exc
 import { TokenGuard } from './guards/token.guard.js'
 import { ForgotPasswordDto } from './dtos/forgot-password.dto.js'
 import { EmailNotFoundException } from '#common/exceptions/email-not-found.exception.js'
+import { ResetPasswordDto } from './dtos/reset-password.dto.js'
+import { SignedInRequest } from '#common/types/signed-in-request.type.js'
 
 @Controller('api/v1/auth')
 export class AuthController {
@@ -36,6 +38,16 @@ export class AuthController {
     const { error } = await this.authService.passwordResetRequest(
       dto.email,
     )
+
+    if (error) throw new SupabaseAuthException(error.message, error.status)
+
+    return HttpResponse.createBody({})
+  }
+
+  @UseGuards(TokenGuard)
+  @Post('reset-password')
+  async resetPassword(@Req() req: SignedInRequest, @Body() dto: ResetPasswordDto) {
+    const { error } = await this.authService.resetPassword(req.user.sub, dto.password)
 
     if (error) throw new SupabaseAuthException(error.message, error.status)
 
