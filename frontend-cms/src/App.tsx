@@ -33,6 +33,7 @@ import { ForgotPassword } from "./pages/forgotPassword";
 import { Login } from "./pages/login";
 import { Register } from "./pages/register";
 import { charDataProvider } from "./dataProvider";
+import { queryClient } from "./common/query.client";
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -73,6 +74,10 @@ function App() {
               options={{
                 syncWithLocation: true,
                 warnWhenUnsavedChanges: true,
+                reactQuery: {
+                  clientConfig: queryClient,
+                  // devtoolConfig: false
+                },
               }}
             >
               <Routes>
