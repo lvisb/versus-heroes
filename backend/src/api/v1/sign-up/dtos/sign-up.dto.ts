@@ -16,7 +16,9 @@ export class SignUpDto {
   email: string
 
   @IsDefined({ message: 'password is required' })
-  @IsStrongPassword(passwordRules, { message: 'invalid password' })
+  @IsStrongPassword(passwordRules, {
+    message: `The password must contain at least 8 characters.`,
+  })
   @MaxLength(255, { message: 'password too long, max: 255 chars' })
   password: string
 }
