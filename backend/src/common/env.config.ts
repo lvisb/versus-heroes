@@ -41,4 +41,9 @@ export class Env {
   @Expose()
   @IsDefined()
   CORS_ORIGIN: string
+
+  @Expose()
+  @IsDefined()
+  @IsUrl()
+  ADMIN_FRONTEND_URL: string
 }

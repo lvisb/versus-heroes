@@ -41,4 +41,8 @@ export class ConfigService implements Env {
   get CORS_ORIGIN(): string {
     return this.service.get<string>('CORS_ORIGIN')
   }
+
+  get ADMIN_FRONTEND_URL(): string {
+    return this.service.get<string>('ADMIN_FRONTEND_URL')
+  }
 }
