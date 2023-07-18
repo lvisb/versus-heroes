@@ -12,9 +12,7 @@ export const Login = () => {
           icon={<AppIcon />}
         />
       }
-      formProps={{
-        defaultValues: { email: "demo@refine.dev", password: "demodemo" },
-      }}
+      formProps={{}}
     />
   );
 };
