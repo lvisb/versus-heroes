@@ -1,4 +1,5 @@
 import { AuthBindings } from "@refinedev/core";
+import { AuthActionResponse } from "@refinedev/core/dist/interfaces";
 import axios, { AxiosError } from "axios";
 import { axiosInstance } from "./common/axios.client";
 import { api } from "./consts";
@@ -77,6 +78,40 @@ export const authProvider: AuthBindings = {
     } catch (err) {
       return null;
     }
+  },
+  register: async ({ email, password }: any) => {
+    try {
+      await axios.post(`${api.baseUrl}/sign-up`, {
+        email,
+        password,
+      });
+    } catch (err) {
+      let errorMessage = "";
+      let statusCode = 0;
+
+      if (err instanceof AxiosError) {
+        if (err.response?.data.errors)
+          errorMessage = err.response.data.errors
+            .map((error: any) => error.message)
+            .join(" / ");
+        else errorMessage = err.response?.data.message;
+      } else errorMessage = (err as Error).message;
+
+      statusCode = (err as any).response?.status || 500;
+
+      return {
+        success: false,
+        error: {
+          message: errorMessage,
+          statusCode,
+        },
+      };
+    }
+
+    return {
+      success: true,
+      redirectTo: "/register/success",
+    };
   },
   onError: async (error) => {
     console.error(error);
