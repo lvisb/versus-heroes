@@ -6,13 +6,12 @@ import {
   DreamStudioResponseArtifact,
   DreamStudioService,
 } from '#dreamstudio/dreamstudio.service.js'
-import { SupabaseClient } from '#supabase/supabase.provider.js'
-import { Inject, Injectable } from '@nestjs/common'
-import supabase from '@supabase/supabase-js'
+import { Injectable } from '@nestjs/common'
 import slug from 'slug'
 import { decode } from 'base64-arraybuffer'
 import { CharacterImg } from '#db/entities/character_img.entity.js'
 import { nanoid } from 'nanoid'
+import { SupabaseService } from '#supabase/supabase.service.js'
 
 @Injectable()
 export class CharService {
@@ -20,8 +19,7 @@ export class CharService {
     private readonly dbService: DbService,
     private readonly chatGptService: ChatGptService,
     private readonly dreamStudioService: DreamStudioService,
-    @Inject(SupabaseClient)
-    private readonly supabaseClient: supabase.SupabaseClient,
+    private readonly supabaseService: SupabaseService,
   ) {}
 
   findCharById(charId: string, authorId: string) {
@@ -166,7 +164,7 @@ export class CharService {
   }
 
   async uploadCharacterImage(fileName: string, base64Image: string) {
-    const { error } = await this.supabaseClient.storage
+    const { error } = await this.supabaseService.client.storage
       .from('characters')
       .upload(`public/${fileName}`, decode(base64Image), {
         contentType: 'image/jpeg',
