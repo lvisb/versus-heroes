@@ -7,9 +7,9 @@ import {
 } from 'class-validator'
 
 export class SignUpDto {
-  @IsDefined({ message: 'name is required' })
-  @MaxLength(100, { message: 'name too long' })
-  name: string
+  // @IsDefined({ message: 'name is required' })
+  // @MaxLength(100, { message: 'name too long' })
+  // name: string
 
   @IsDefined({ message: 'email is required' })
   @IsEmail({}, { message: 'invalid email' })

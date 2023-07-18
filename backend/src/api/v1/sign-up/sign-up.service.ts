@@ -15,7 +15,7 @@ export class SignUpService {
   }
 
   createUser(dto: SignUpDto) {
-    const { password, email, name } = dto
+    const { password, email } = dto
 
     return this.supabaseService.client.auth.signUp({
       password,
@@ -23,7 +23,6 @@ export class SignUpService {
       options: {
         data: {
           role: 'user',
-          name,
         },
       },
     })
