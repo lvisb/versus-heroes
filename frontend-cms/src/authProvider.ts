@@ -1,5 +1,6 @@
 import { AuthBindings } from "@refinedev/core";
 import axios, { AxiosError } from "axios";
+import { axiosInstance } from "./common/axios.client";
 import { api } from "./consts";
 
 export const TOKEN_KEY = "refine-auth";
@@ -47,15 +48,8 @@ export const authProvider: AuthBindings = {
     };
   },
   check: async () => {
-    const token =
-      localStorage.getItem(TOKEN_KEY) || sessionStorage.getItem(TOKEN_KEY);
-
     try {
-      await axios.post(`${api.baseUrl}/auth/validate-token`, {
-        Headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await axiosInstance.post(`${api.baseUrl}/auth/validate-token`);
 
       return {
         authenticated: true,
@@ -69,17 +63,15 @@ export const authProvider: AuthBindings = {
   },
   getPermissions: async () => null,
   getIdentity: async () => {
-    throw new Error("Method not implemented.");
-    // const token =
-    //   localStorage.getItem(TOKEN_KEY) || sessionStorage.getItem(TOKEN_KEY);
-    // if (token) {
-    //   return {
-    //     id: 1,
-    //     name: "John Doe",
-    //     avatar: "https://i.pravatar.cc/300",
-    //   };
-    // }
-    // return null;
+    try {
+      const { data } = await axiosInstance.post(
+        `${api.baseUrl}/auth/validate-token`
+      );
+
+      return data.user;
+    } catch (err) {
+      return null;
+    }
   },
   onError: async (error) => {
     console.error(error);
