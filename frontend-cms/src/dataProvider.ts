@@ -1,45 +1,5 @@
-import {
-  CreateResponse,
-  DataProvider,
-  GetListResponse,
-  HttpError,
-} from "@refinedev/core";
-import axios from "axios";
-import { TOKEN_KEY } from "./authProvider";
-import { api } from "./consts";
-
-const axiosInstance = axios.create({
-  baseURL: api.baseUrl,
-});
-
-axiosInstance.interceptors.request.use(
-  (config) => {
-    const token =
-      localStorage.getItem(TOKEN_KEY) || sessionStorage.getItem(TOKEN_KEY);
-
-    if (token) config.headers.Authorization = `Bearer ${token}`;
-
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
-
-axiosInstance.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  (error) => {
-    const customError: HttpError = {
-      ...error,
-      message: error.response?.data?.message,
-      statusCode: error.response?.status,
-    };
-
-    return Promise.reject(customError);
-  }
-);
+import { CreateResponse, DataProvider } from "@refinedev/core";
+import { axiosInstance } from "./common/axios.client";
 
 export const charDataProvider: DataProvider = {
   // required methods
