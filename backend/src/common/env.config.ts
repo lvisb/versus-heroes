@@ -44,6 +44,6 @@ export class Env {
 
   @Expose()
   @IsDefined()
-  @IsUrl()
+  @IsUrl({ require_tld: false })
   ADMIN_FRONTEND_URL: string
 }
