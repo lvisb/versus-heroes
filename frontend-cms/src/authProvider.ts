@@ -49,29 +49,37 @@ export const authProvider: AuthBindings = {
   check: async () => {
     const token =
       localStorage.getItem(TOKEN_KEY) || sessionStorage.getItem(TOKEN_KEY);
-    if (token) {
+
+    try {
+      await axios.post(`${api.baseUrl}/auth/validate-token`, {
+        Headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
       return {
         authenticated: true,
       };
+    } catch (err) {
+      return {
+        authenticated: false,
+        redirectTo: "/login",
+      };
     }
-
-    return {
-      authenticated: false,
-      redirectTo: "/login",
-    };
   },
   getPermissions: async () => null,
   getIdentity: async () => {
-    const token =
-      localStorage.getItem(TOKEN_KEY) || sessionStorage.getItem(TOKEN_KEY);
-    if (token) {
-      return {
-        id: 1,
-        name: "John Doe",
-        avatar: "https://i.pravatar.cc/300",
-      };
-    }
-    return null;
+    throw new Error("Method not implemented.");
+    // const token =
+    //   localStorage.getItem(TOKEN_KEY) || sessionStorage.getItem(TOKEN_KEY);
+    // if (token) {
+    //   return {
+    //     id: 1,
+    //     name: "John Doe",
+    //     avatar: "https://i.pravatar.cc/300",
+    //   };
+    // }
+    // return null;
   },
   onError: async (error) => {
     console.error(error);
