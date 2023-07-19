@@ -24,12 +24,7 @@ import { authProvider } from "./authProvider";
 import { AppIcon } from "./components/app-icon";
 import { Header } from "./components/header";
 import { ColorModeContextProvider } from "./contexts/color-mode";
-import {
-  BlogPostCreate,
-  CharEdit,
-  CharList,
-  BlogPostShow,
-} from "./pages/chars";
+import { CharCreate, CharEdit, CharList, BlogPostShow } from "./pages/chars";
 import { ForgotPassword } from "./pages/forgotPassword";
 import { Login } from "./pages/login";
 import { Register } from "./pages/register";
@@ -109,7 +104,7 @@ function App() {
                   />
                   <Route path="/characters">
                     <Route index element={<CharList />} />
-                    <Route path="create" element={<BlogPostCreate />} />
+                    <Route path="create" element={<CharCreate />} />
                     <Route path="edit/:id" element={<CharEdit />} />
                     <Route path="show/:id" element={<BlogPostShow />} />
                   </Route>
