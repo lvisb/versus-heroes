@@ -16,6 +16,7 @@ import { CharPutDto } from './dtos/put.dto.js'
 import { config } from '#common/config.js'
 import { CharLimitExceedException } from '#common/exceptions/char-limit-exceeded.exception.js'
 import { Raw } from 'typeorm'
+import { format } from 'date-fns-tz'
 
 @Injectable()
 export class CharService {
@@ -151,7 +152,9 @@ export class CharService {
     }
 
     for (const [_, image] of images.entries()) {
-      const fileName = `${char.charNameSlug}-${nanoid(6)}.jpg`
+      const fileName = `${format(new Date(), 'yyyy-MM-dd')}/${
+        char.charNameSlug
+      }-${nanoid(6)}.jpg`
 
       await this.uploadCharacterImage(fileName, image.base64)
 
@@ -192,7 +195,7 @@ export class CharService {
   async uploadCharacterImage(fileName: string, base64Image: string) {
     const { error } = await this.supabaseService.client.storage
       .from('characters')
-      .upload(fileName, decode(base64Image), {
+      .upload(`${fileName}`, decode(base64Image), {
         contentType: 'image/jpeg',
       })
 
