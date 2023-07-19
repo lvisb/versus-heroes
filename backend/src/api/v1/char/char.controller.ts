@@ -104,6 +104,8 @@ export class CharController {
   async createChar(@Req() req: SignedInRequest, @Body() dto: CharNameDto) {
     const { name } = dto
 
+    await this.charService.checkUserLimits(req.user.sub)
+
     const aiChar = await this.charService.findAiCharByName(name)
 
     if (!aiChar) throw new CharacterNotFoundException()

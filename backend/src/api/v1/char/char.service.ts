@@ -13,6 +13,9 @@ import { CharacterImg } from '#db/entities/character_img.entity.js'
 import { nanoid } from 'nanoid'
 import { SupabaseService } from '#supabase/supabase.service.js'
 import { CharPutDto } from './dtos/put.dto.js'
+import { config } from '#common/config.js'
+import { CharLimitExceedException } from '#common/exceptions/char-limit-exceeded.exception.js'
+import { Raw } from 'typeorm'
 
 @Injectable()
 export class CharService {
@@ -50,6 +53,19 @@ export class CharService {
     return this.dbService.charRepo.createQueryBuilder('c').where({
       authorId,
     })
+  }
+
+  async checkUserLimits(userId: string) {
+    const createdChars = await this.dbService.charRepo.count({
+      withDeleted: true,
+      where: {
+        authorId: userId,
+        createdAt: Raw((alias) => `${alias} >= NOW() - INTERVAL '1 HOUR'`),
+      },
+    })
+
+    if (createdChars >= config.maxCharsPerHour)
+      throw new CharLimitExceedException()
   }
 
   async findAiCharByName(name: string): Promise<chatgpt.char.Char> {
