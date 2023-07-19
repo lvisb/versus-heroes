@@ -4,6 +4,7 @@ import { db } from '#db/db.consts.js'
 import { Expose, Transform, Type } from 'class-transformer'
 import {
   ArrayMaxSize,
+  IsBoolean,
   IsDefined,
   IsEmpty,
   IsIn,
@@ -66,4 +67,9 @@ export class CharPutDto {
   @Type(() => AttributesDto)
   @ValidateNested()
   attributes: AttributesDto
+
+  @Expose()
+  @Type(() => Boolean)
+  @IsBoolean({ message: ValidationMessages.INVALID_FIELD })
+  isActive: boolean
 }

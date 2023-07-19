@@ -127,6 +127,7 @@ export class CharService {
     char.weaknesses = weaknesses.weaknesses
     char.charType = summary.type
     char.alsoKnownAs = alsoKnown
+    char.isActive = true
 
     return char
   }
