@@ -8,10 +8,12 @@ import {
 } from "@refinedev/mui";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { IResourceComponentsProps, useTranslate } from "@refinedev/core";
+import { format, utcToZonedTime } from "date-fns-tz";
 
 export const CharList: React.FC<IResourceComponentsProps> = () => {
   const translate = useTranslate();
   const { dataGridProps } = useDataGrid();
+  const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const columns = React.useMemo<GridColDef[]>(
     () => [
@@ -42,7 +44,16 @@ export const CharList: React.FC<IResourceComponentsProps> = () => {
         headerAlign: "center",
         sortable: false,
         filterable: false,
-        valueFormatter: ({ value }) => new Date(value).toLocaleString(),
+        valueFormatter: ({ value }) => {
+          const userDate = utcToZonedTime(
+            new Date(value),
+            userTimezone
+          );
+
+          return format(userDate, "dd/MM/yyyy, HH:mm:ss", {
+            timeZone: userTimezone,
+          });
+        },
       },
       {
         field: "updatedAt",
@@ -53,7 +64,16 @@ export const CharList: React.FC<IResourceComponentsProps> = () => {
         headerAlign: "center",
         sortable: false,
         filterable: false,
-        valueFormatter: ({ value }) => new Date(value).toLocaleString(),
+        valueFormatter: ({ value }) => {
+          const userDate = utcToZonedTime(
+            new Date(value),
+            userTimezone
+          );
+
+          return format(userDate, "dd/MM/yyyy, HH:mm:ss", {
+            timeZone: userTimezone,
+          });
+        },
       },
       {
         field: "actions",
