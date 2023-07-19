@@ -1,5 +1,5 @@
 export const charExistsPrompt = (charName: string) =>
-  `After translate the character named ${charName} to english, check if character named ${charName} exists and is a hero or villain in movies, comics, or games? If yes, return a JSON containing the characterName and nothing else. Else return a JSON containing the characterName with null value.`
+  `After translate the character named ${charName} to english, check if character named ${charName} exists and is a hero or villain in movies, comics, or games? If the characters exists, return a JSON containing the characterName and nothing else.`
 
 export const charKnownByAnotherNamePrompt = (charName: string) =>
   `Do not explain. List all other names by which ${charName} is known separated by a semicolon.`

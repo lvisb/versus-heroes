@@ -30,7 +30,15 @@ export class ChatGptService {
 
     this.logger.log(charExists.text, 'charExists')
 
-    const promptResultJson = JSON.parse(charExists.text)
+    let promptResultJson: any
+
+    try {
+      promptResultJson = JSON.parse(charExists.text)
+    } catch (e) {
+      this.logger.error(charExists.text, 'charExists')
+
+      promptResultJson = { characterName: null }
+    }
 
     const json: chatgpt.char.Char = {
       ...promptResultJson,

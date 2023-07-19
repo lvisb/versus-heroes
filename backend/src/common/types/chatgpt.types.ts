@@ -8,6 +8,7 @@ export namespace chatgpt {
     }
 
     export interface Char {
+      id?: string
       characterName: string | null
       alsoKnown: string[]
     }
