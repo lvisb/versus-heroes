@@ -93,15 +93,15 @@ export class Character {
   isActive: boolean
 
   @Index(`idx_${tableName}_created_at`)
-  @CreateDateColumn({ name: 'created_at' })
+  @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   createdAt: Date
 
   @Index(`idx_${tableName}_updated_at`)
-  @UpdateDateColumn({ name: 'updated_at' })
+  @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz' })
   updatedAt: Date
 
   @Index(`idx_${tableName}_deleted_at`)
-  @DeleteDateColumn({ name: 'deleted_at' })
+  @DeleteDateColumn({ name: 'deleted_at', type: 'timestamptz' })
   deletedAt: Date
 
   @OneToMany(() => CharacterImg, (image) => image.characterId)
