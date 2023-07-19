@@ -32,6 +32,7 @@ import { charDataProvider } from "./dataProvider";
 import { queryClient } from "./common/query.client";
 import { RegisterSuccess } from "./pages/register/success";
 import { ForgotPasswordSuccess } from "./pages/forgotPassword/success";
+import { Home } from "./pages/home";
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -98,10 +99,7 @@ function App() {
                     </Authenticated>
                   }
                 >
-                  <Route
-                    index
-                    element={<NavigateToResource resource="characters" />}
-                  />
+                  <Route index element={<Home />} />
                   <Route path="/characters">
                     <Route index element={<CharList />} />
                     <Route path="create" element={<CharCreate />} />
