@@ -164,7 +164,7 @@ export const CharShow: React.FC<IResourceComponentsProps> = () => {
         <Grid item xs={12}>
           <Stack direction="row" spacing={1} flexWrap="wrap" gap={2}>
             {record?.images.map((image: any) => (
-              <Card sx={{ maxWidth: 300 }}>
+              <Card key={image.imageId} sx={{ maxWidth: 300 }}>
                 <CardMedia
                   component="img"
                   image={`${supabase.charAssetsUrl}/${image.imagePath}`}
