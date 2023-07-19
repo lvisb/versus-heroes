@@ -12,6 +12,7 @@ import {
 import { Typography, Stack, Grid, Card, CardMedia } from "@mui/material";
 import { supabase } from "../../consts";
 import { Stars } from "./components/stars-view";
+import { format, utcToZonedTime } from "date-fns-tz";
 
 export const CharShow: React.FC<IResourceComponentsProps> = () => {
   const translate = useTranslate();
@@ -27,6 +28,10 @@ export const CharShow: React.FC<IResourceComponentsProps> = () => {
       enabled: !!record,
     },
   });
+
+  const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const createdAt = record?.createdAt ? utcToZonedTime(new Date(record?.createdAt), userTimezone) : null;
+  const updatedAt = record?.updatedAt ? utcToZonedTime(new Date(record?.updatedAt), userTimezone) : null;
 
   return (
     <Show isLoading={isLoading}>
@@ -174,75 +179,23 @@ export const CharShow: React.FC<IResourceComponentsProps> = () => {
           </Stack>
         </Grid>
 
-        <Grid item xs={12} marginTop={4}>
+        {createdAt && <Grid item xs={12} marginTop={4}>
           <Typography variant="body2">
-            <strong>Created At:</strong> {record?.createdAt}
+            <strong>Created At:</strong>{" "}
+            {format(createdAt, "dd/MM/yyyy, HH:mm:ss", {
+              timeZone: userTimezone,
+            })}
           </Typography>
-        </Grid>
+        </Grid>}
 
-        <Grid item xs={12}>
+        {updatedAt && <Grid item xs={12}>
           <Typography variant="body2">
-            <strong>Updated At:</strong> {record?.updatedAt}
+            <strong>Updated At:</strong>{" "}
+            {format(updatedAt, "dd/MM/yyyy, HH:mm:ss", {
+              timeZone: userTimezone,
+            })}
           </Typography>
-        </Grid>
-
-        {/* <Grid item xs={12} marginTop={4}> */}
-        {/*   <Typography variant="h5"> */}
-        {/*     <strong>Appearance:</strong> */}
-        {/*   </Typography> */}
-        {/* </Grid> */}
-
-        {/* <Grid item xs={12}> */}
-        {/*   <Typography variant="body1">{record?.appearance}</Typography> */}
-        {/* </Grid> */}
-
-        {/* <Typography variant="body1" fontWeight="bold"> */}
-        {/*   {translate("char.fields.charNameSlug")} */}
-        {/* </Typography> */}
-        {/* <TextField value={record?.charNameSlug} /> */}
-        {/* <Typography variant="body1" fontWeight="bold"> */}
-        {/*   {translate("char.fields.alsoKnownAs")} */}
-        {/* </Typography> */}
-        {/* <Stack direction="row" spacing={1}> */}
-        {/*   {record?.alsoKnownAs?.map((item: any) => ( */}
-        {/*     <TagField value={item} key={item} /> */}
-        {/*   ))} */}
-        {/* </Stack> */}
-        {/* <Typography variant="body1" fontWeight="bold"> */}
-        {/*   {translate("char.fields.charType")} */}
-        {/* </Typography> */}
-        {/* <TextField value={record?.charType} /> */}
-        {/* <Typography variant="body1" fontWeight="bold"> */}
-        {/*   {translate("char.fields.summary")} */}
-        {/* </Typography> */}
-        {/* <MarkdownField value={record?.summary} /> */}
-        {/* <Typography variant="body1" fontWeight="bold"> */}
-        {/*   {translate("char.fields.history")} */}
-        {/* </Typography> */}
-        {/* <MarkdownField value={record?.history} /> */}
-        {/* <Typography variant="body1" fontWeight="bold"> */}
-        {/*   {translate("char.fields.appearance")} */}
-        {/* </Typography> */}
-        {/* <Typography variant="body1" fontWeight="bold"> */}
-        {/*   {translate("char.fields.weaknesses")} */}
-        {/* </Typography> */}
-        {/* <Stack direction="row" spacing={1}> */}
-        {/*   {record?.weaknesses?.map((item: any) => ( */}
-        {/*     <TagField value={item} key={item} /> */}
-        {/*   ))} */}
-        {/* </Stack> */}
-        {/* <Typography variant="body1" fontWeight="bold"> */}
-        {/*   {translate("char.fields.isActive")} */}
-        {/* </Typography> */}
-        {/* <BooleanField value={record?.isActive} /> */}
-        {/* <Typography variant="body1" fontWeight="bold"> */}
-        {/*   {translate("char.fields.createdAt")} */}
-        {/* </Typography> */}
-        {/* <DateField value={record?.createdAt} /> */}
-        {/* <Typography variant="body1" fontWeight="bold"> */}
-        {/*   {translate("char.fields.updatedAt")} */}
-        {/* </Typography> */}
-        {/* <DateField value={record?.updatedAt} /> */}
+        </Grid>}
       </Grid>
     </Show>
   );
