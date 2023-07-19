@@ -15,7 +15,7 @@ export const CharEdit: React.FC<IResourceComponentsProps> = () => {
 
   const useFormMethods = useForm({
     defaultValues: {
-      mainImageId: "",
+      profileImageId: "",
       charId: "",
       charName: "",
       charNameSlug: "",
