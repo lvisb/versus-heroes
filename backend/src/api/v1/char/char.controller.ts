@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   Post,
+  Put,
   Query,
   Req,
   UseGuards,
@@ -18,6 +19,7 @@ import { TokenGuard } from '../auth/guards/token.guard.js'
 import { SignedInRequest } from '#common/types/signed-in-request.type.js'
 import { CharIdDto } from './dtos/char-id.dto.js'
 import { PaginationDto } from '#common/dtos/pagination.dto.js'
+import { CharPutDto } from './dtos/put.dto.js'
 
 @UseGuards(TokenGuard)
 @Controller('api/v1/char')
@@ -61,7 +63,12 @@ export class CharController {
 
     if (!char) throw new CharacterNotFoundException()
 
-    return HttpResponse.createBody({ char })
+    return HttpResponse.createBody({
+      char: {
+        ...char,
+        profileImageId: (char.profileImageId as any).imageId,
+      },
+    })
   }
 
   @Delete(':id')
@@ -74,6 +81,21 @@ export class CharController {
     if (!char) throw new CharacterNotFoundException()
 
     await this.charService.deleteChar(char)
+
+    return HttpResponse.createBody({})
+  }
+
+  @Put(':id')
+  async updateChar(
+    @Req() req: SignedInRequest,
+    @Param() dto: CharIdDto,
+    @Body() body: CharPutDto,
+  ) {
+    const r = await this.charService
+      .updateCharacter(req.user.sub, dto.id, body)
+      .execute()
+
+    if (r.affected === 0) throw new CharacterNotFoundException()
 
     return HttpResponse.createBody({})
   }

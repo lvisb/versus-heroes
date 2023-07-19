@@ -12,6 +12,7 @@ import { decode } from 'base64-arraybuffer'
 import { CharacterImg } from '#db/entities/character_img.entity.js'
 import { nanoid } from 'nanoid'
 import { SupabaseService } from '#supabase/supabase.service.js'
+import { CharPutDto } from './dtos/put.dto.js'
 
 @Injectable()
 export class CharService {
@@ -161,6 +162,14 @@ export class CharService {
     img.imagePath = fileName
 
     return this.dbService.charImageRepo.save(img)
+  }
+
+  updateCharacter(authorId: string, charId: string, dto: CharPutDto) {
+    return this.dbService.db
+      .createQueryBuilder()
+      .update(Character)
+      .set(dto)
+      .where({ charId, authorId })
   }
 
   async uploadCharacterImage(fileName: string, base64Image: string) {
