@@ -18,10 +18,6 @@ export const MainTab = () => {
         <TextField fieldName="charName" i18nPath="char.fields" />
       </Grid>
 
-      <Grid item xs={12} md={6}>
-        <TextField fieldName="charNameSlug" i18nPath="char.fields" />
-      </Grid>
-
       <Grid
         item
         xs={12}

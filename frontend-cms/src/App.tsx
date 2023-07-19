@@ -65,6 +65,7 @@ function App() {
               resources={[
                 {
                   name: "char",
+                  identifier: "char",
                   list: "/characters",
                   create: "/characters/create",
                   edit: "/characters/edit/:id",

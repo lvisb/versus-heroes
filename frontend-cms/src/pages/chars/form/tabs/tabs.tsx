@@ -4,6 +4,7 @@ import React from "react";
 import { ReactNode } from "react";
 import { AttributesTab } from "./attributes-tab";
 import { BioTab } from "./bio-tab";
+import { ImagesTab } from "./images-tab";
 import { MainTab } from "./main-tab";
 import { TraitsTab } from "./traits-tab";
 
@@ -38,6 +39,10 @@ export const Tabs = () => {
 
       <CustomTabPanel value="4">
         <TraitsTab />
+      </CustomTabPanel>
+
+      <CustomTabPanel value="5">
+        <ImagesTab />
       </CustomTabPanel>
     </TabContext>
   );

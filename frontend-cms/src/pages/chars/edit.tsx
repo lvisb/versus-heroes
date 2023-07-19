@@ -1,19 +1,27 @@
 import { Edit } from "@refinedev/mui";
 import { Box } from "@mui/material";
 import { useForm } from "@refinedev/react-hook-form";
-import { IResourceComponentsProps } from "@refinedev/core";
+import { IResourceComponentsProps, useOne, useParsed } from "@refinedev/core";
 import { FormProvider } from "react-hook-form";
 import { Tabs } from "./form/tabs/tabs";
 
 export const CharEdit: React.FC<IResourceComponentsProps> = () => {
+  const { id } = useParsed();
+
+  const { data, isLoading, isError } = useOne({
+    resource: "char",
+    id: id,
+  });
+
   const useFormMethods = useForm({
     defaultValues: {
-      charId: '',
-      charName: '',
-      charNameSlug: '',
-      charType: '',
-      summary: '',
-      history: '',
+      mainImageId: "",
+      charId: "",
+      charName: "",
+      charNameSlug: "",
+      charType: "",
+      summary: "",
+      history: "",
       alsoKnownAs: [],
       strengths: [],
       weaknesses: [],
@@ -29,8 +37,8 @@ export const CharEdit: React.FC<IResourceComponentsProps> = () => {
         endurance: 0,
         technique: 0,
         intelligence: 0,
-      }
-    }
+      },
+    },
   });
 
   const {

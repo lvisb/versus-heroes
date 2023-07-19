@@ -21,7 +21,13 @@ export const charDataProvider: DataProvider = {
 
     return Promise.resolve(response);
   },
-  // update: ({ resource, id, variables, meta }) => Promise,
+  update: async ({ resource, id, variables, meta }) => {
+    console.log("update", resource, id, variables, meta);
+
+    const { data } = await axiosInstance.put(`/char/${id}`, variables);
+
+    return { data };
+  },
   deleteOne: async ({ resource, id, variables, meta }) => {
     const { data } = await axiosInstance.delete(`/char/${id}`);
 

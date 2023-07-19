@@ -19,9 +19,10 @@ export const Tags = ({ fieldName, i18nPath, maxTags }: TagsProps) => {
   const defaultValue = getValues(fieldName);
 
   const handleChange = (_: SyntheticEvent, newValue: string[]) => {
-    if(maxTags && newValue.length > maxTags) return;
+    if (maxTags && newValue.length > maxTags) return;
 
     setValue(newValue);
+    formContext.setValue(fieldName, newValue);
   };
 
   useEffect(() => {
@@ -43,7 +44,12 @@ export const Tags = ({ fieldName, i18nPath, maxTags }: TagsProps) => {
             value={value}
             onChange={handleChange}
             renderInput={(params) => (
-              <TextField {...params} variant="outlined" label={label} helperText={maxTags ? `(maximum of ${maxTags})` : undefined}/>
+              <TextField
+                {...params}
+                variant="outlined"
+                label={label}
+                helperText={maxTags ? `(maximum of ${maxTags})` : undefined}
+              />
             )}
           />
         );

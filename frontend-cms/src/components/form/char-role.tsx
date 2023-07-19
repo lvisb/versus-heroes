@@ -19,6 +19,7 @@ export const CharRole = ({ fieldName, i18nPath }: FormElement) => {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue((event.target as HTMLInputElement).value);
+    formContext.setValue(fieldName, defaultValue);
   };
 
   useEffect(() => {
