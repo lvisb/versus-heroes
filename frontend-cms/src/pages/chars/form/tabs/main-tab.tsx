@@ -1,5 +1,4 @@
-import { Alert, Grid, Typography, useTheme } from "@mui/material";
-import { useFormContext } from "react-hook-form";
+import { Grid, useTheme } from "@mui/material";
 import { CharRole } from "../../../../components/form/char-role";
 import { Checkbox } from "../../../../components/form/checkbox";
 import { Tags } from "../../../../components/form/tags";
@@ -8,7 +7,6 @@ import { TextField } from "../../../../components/form/textfield";
 
 export const MainTab = () => {
   const { spacing } = useTheme();
-  const { getValues } = useFormContext();
 
   return (
     <Grid container spacing={1} direction="row">
@@ -33,11 +31,7 @@ export const MainTab = () => {
       </Grid>
 
       <Grid item xs={12} marginTop={2}>
-        {!getValues("isActive") && (
-          <Alert severity="warning">
-            This character is still pending approval by the admin.
-          </Alert>
-        )}
+        <Checkbox fieldName="isActive" i18nPath="char.fields" />
       </Grid>
     </Grid>
   );
