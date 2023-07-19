@@ -19,13 +19,11 @@ export const charDataProvider: DataProvider = {
     };
   },
   create: async ({ resource, variables, meta }) => {
-    const response: CreateResponse<any> = { data: {} };
+    const { data } = await axiosInstance.post(`/char`, variables);
 
-    return Promise.resolve(response);
+    return { data };
   },
   update: async ({ resource, id, variables, meta }) => {
-    console.log("update", resource, id, variables, meta);
-
     const { data } = await axiosInstance.put(`/char/${id}`, variables);
 
     return { data };

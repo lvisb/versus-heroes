@@ -110,7 +110,8 @@
   },
   "char": {
     "fields": {
-      "charName": "Character",
+      "name": "Character Name",
+      "charName": "Character Name",
       "charNameSlug": "Slug",
       "profileImageSrc": "Profile Image",
       "alsoKnownAs": "Also known as",

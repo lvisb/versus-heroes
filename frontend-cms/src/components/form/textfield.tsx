@@ -2,7 +2,7 @@ import { TextField as MuiTextField } from "@mui/material";
 import { useFormField } from "../../hooks/use-form-field.hook";
 import { FormElement } from "../../types/form-element.type";
 
-export const TextField = ({ fieldName, i18nPath }: FormElement) => {
+export const TextField = ({ fieldName, i18nPath, helperText }: FormElement) => {
   const { formContext, label, hasError, errorMessage } = useFormField({
     fieldName,
     i18nPath,
@@ -16,7 +16,7 @@ export const TextField = ({ fieldName, i18nPath }: FormElement) => {
         required: errorMessage,
       })}
       error={hasError}
-      helperText={errorMessage}
+      helperText={errorMessage || helperText}
       margin="normal"
       fullWidth
       InputLabelProps={{ shrink: true }}
