@@ -1,5 +1,5 @@
 import { Create, Edit } from "@refinedev/mui";
-import { Alert, Box, Grid, Typography } from "@mui/material";
+import { Alert, Box, Grid, LinearProgress, Typography } from "@mui/material";
 import { useForm } from "@refinedev/react-hook-form";
 import { IResourceComponentsProps } from "@refinedev/core";
 import { FormProvider } from "react-hook-form";
@@ -51,6 +51,12 @@ export const CharCreate: React.FC<IResourceComponentsProps> = () => {
                 helperText="ex: John Snow from Game Of Thrones (it's better to be specific)"
               />
             </Grid>
+
+            {formLoading && (
+              <Grid item xs={12} marginTop={1}>
+                <LinearProgress color="success" />
+              </Grid>
+            )}
 
             <Grid item xs={12} marginTop={1}>
               <Alert severity="warning">
