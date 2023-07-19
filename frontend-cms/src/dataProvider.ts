@@ -1,8 +1,10 @@
 import { CreateResponse, DataProvider } from "@refinedev/core";
 import { axiosInstance } from "./common/axios.client";
+import { api } from "./consts";
 
 export const charDataProvider: DataProvider = {
   // required methods
+  getApiUrl: () => api.baseUrl,
   getList: async ({ resource, pagination, sorters, filters, meta }) => {
     const { data } = await axiosInstance.get("/char/list", {
       params: {
