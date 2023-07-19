@@ -21,8 +21,8 @@ export default new ValidationPipe({
   // performs serialization from plain to class.
   transform: true,
 
-  // if a property in the class has multiple validations, 
-  // and if an error occurs in the first validation, 
+  // if a property in the class has multiple validations,
+  // and if an error occurs in the first validation,
   // class-validator does not execute the remaining validations.
   stopAtFirstError: true,
 
@@ -32,10 +32,12 @@ export default new ValidationPipe({
   transformOptions: {
     // does not convert strings, numbers, or booleans to their respective types.
     enableImplicitConversion: false,
+
+    excludeExtraneousValues: true,
   },
 
   /**
-   * Formats the JSON in case of validation errors.   
+   * Formats the JSON in case of validation errors.
    *
    * @param errors - Array of errors found.
    * @returns Formatted JSON with errors.

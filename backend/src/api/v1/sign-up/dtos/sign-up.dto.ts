@@ -1,4 +1,5 @@
 import { passwordRules } from '#common/password-rules.config.js'
+import { Expose } from 'class-transformer'
 import {
   IsDefined,
   IsEmail,
@@ -11,10 +12,12 @@ export class SignUpDto {
   // @MaxLength(100, { message: 'name too long' })
   // name: string
 
+  @Expose()
   @IsDefined({ message: 'email is required' })
   @IsEmail({}, { message: 'invalid email' })
   email: string
 
+  @Expose()
   @IsDefined({ message: 'password is required' })
   @IsStrongPassword(passwordRules, {
     message: `The password must contain at least 8 characters.`,
