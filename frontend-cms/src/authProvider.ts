@@ -70,13 +70,13 @@ export const authProvider: AuthBindings = {
   getPermissions: async () => null,
   getIdentity: async () => {
     try {
-      const { data } = await axiosInstance.post(
-        `${api.baseUrl}/auth/validate-token`
+      const { data } = await axiosInstance.get(
+        `${api.baseUrl}/me`
       );
 
       return data.user;
     } catch (err) {
-      return null;
+      return null
     }
   },
   register: async ({ email, password }: any) => {
