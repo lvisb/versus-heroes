@@ -175,7 +175,7 @@ export class CharService {
   async uploadCharacterImage(fileName: string, base64Image: string) {
     const { error } = await this.supabaseService.client.storage
       .from('characters')
-      .upload(`public/${fileName}`, decode(base64Image), {
+      .upload(fileName, decode(base64Image), {
         contentType: 'image/jpeg',
       })
 
