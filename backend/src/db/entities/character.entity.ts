@@ -48,7 +48,9 @@ export class Character {
     name: 'profile_image_id',
     nullable: true,
   })
-  @ManyToOne(() => CharacterImg, (image) => image.imageId)
+  @ManyToOne(() => CharacterImg, (image) => image.imageId, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({
     name: 'profile_image_id',
     referencedColumnName: 'imageId',

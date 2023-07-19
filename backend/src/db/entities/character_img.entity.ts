@@ -23,7 +23,9 @@ export class CharacterImg {
 
   @Index(`idx_${tableName}_character_id`)
   @Column({ type: 'uuid', name: 'character_id' })
-  @ManyToOne(() => Character, (char) => char.charId)
+  @ManyToOne(() => Character, (char) => char.charId, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({
     name: 'character_id',
     referencedColumnName: 'charId',
