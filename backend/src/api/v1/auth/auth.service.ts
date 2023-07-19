@@ -26,7 +26,7 @@ export class AuthService {
 
   passwordResetRequest(email: string) {
     return this.supabaseService.client.auth.resetPasswordForEmail(email, {
-      redirectTo: `${this.configService.ADMIN_FRONTEND_URL}/forgot-password`,
+      redirectTo: `${this.configService.ADMIN_FRONTEND_URL}/update-password`,
     })
   }
 
