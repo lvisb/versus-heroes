@@ -30,7 +30,7 @@ export class CharService {
     return this.dbService.charRepo
       .createQueryBuilder('c')
       .innerJoinAndSelect('c.profileImageId', 'profileImage')
-      .innerJoinAndSelect('c.images', 'images')
+      .leftJoinAndSelect('c.images', 'images')
       .where({
         charId,
         authorId,
