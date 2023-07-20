@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "remix build",
-    "dev": "remix dev",
+    "dev": "env-cmd remix dev",
     "postinstall": "remix setup node",
     "start": "remix-serve build"
   },
@@ -19,6 +19,7 @@
     "@remix-run/react": "latest",
     "@remix-run/serve": "latest",
     "@remix-run/server-runtime": "latest",
+    "axios": "^1.4.0",
     "react": "latest",
     "react-dom": "latest",
     "remix": "latest"
@@ -27,6 +28,7 @@
     "@remix-run/dev": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
+    "env-cmd": "^10.1.0",
     "typescript": "latest"
   },
   "engines": {

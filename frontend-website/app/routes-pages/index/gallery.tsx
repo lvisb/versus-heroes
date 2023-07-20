@@ -3,6 +3,8 @@ import ImageListItem from "@mui/material/ImageListItem";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material";
 import { GalleryItem, GalleryItemProps } from "./gallery-item";
+import { useLoaderData } from "@remix-run/react";
+import { supabase } from "~/src/consts";
 
 function srcset(image: string, size: number, rows = 1, cols = 1) {
   return {
@@ -10,7 +12,34 @@ function srcset(image: string, size: number, rows = 1, cols = 1) {
     srcSet: `${image}`,
   };
 }
+
+function getRandomNumber(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+const gridDesign = [
+  { cols: 2, rows: 2 },
+  { cols: 1, rows: 1 },
+  { cols: 1, rows: 1 },
+  { rows: 1, cols: 2 },
+  { rows: 1, cols: 2 },
+  { rows: 1, cols: 1 },
+  { rows: 1, cols: 1 },
+
+  { rows: 1, cols: 1 },
+  { rows: 1, cols: 1 },
+  { rows: 2, cols: 2 },
+  { rows: 1, cols: 2 },
+  { cols: 1, rows: 1 },
+  { cols: 1, rows: 1 },
+  { cols: 2, rows: 2 },
+
+  // { cols: 2, rows: 2 },
+  // { rows: 1, cols: 2 },
+];
+
 export const QuiltedImageList = () => {
+  const chars = useLoaderData().chars;
   const { breakpoints } = useTheme();
 
   const isSmall = useMediaQuery((theme) => breakpoints.down("md"));
@@ -24,69 +53,21 @@ export const QuiltedImageList = () => {
 
   return (
     <ImageList sx={{}} variant="quilted" cols={cols} rowHeight={250}>
-      {itemData.map((item: GalleryItemProps, index: number) => (
-        <GalleryItem key={index} {...item} />
-      ))}
+      {chars.map((char: any, index: number) => {
+        const currDesign = gridDesign[index % gridDesign.length];
+
+        return (
+          <GalleryItem
+            key={index}
+            url={char.charNameSlug}
+            title={char.charName}
+            img={`${supabase.charAssetsUrl}/${char.profileImageId.imagePath}`}
+            cols={currDesign.cols}
+            rows={currDesign.rows}
+            suppressHydrationWarning
+          />
+        );
+      })}
     </ImageList>
   );
 };
-
-const itemData: GalleryItemProps[] = [
-  {
-    title: "Honey",
-    img: "https://apcuctqgazqqjobpdhax.supabase.co/storage/v1/object/public/characters/dexter-morgan-QTdxrZ.jpg",
-    rows: 2,
-    cols: 2,
-  },
-  {
-    img: "https://apcuctqgazqqjobpdhax.supabase.co/storage/v1/object/public/characters/fred-krueger-38MTFp.jpg",
-    title: "Burger",
-  },
-  {
-    img: "https://apcuctqgazqqjobpdhax.supabase.co/storage/v1/object/public/characters/hannibal-lecter-PaFLOS.jpg?t=2023-07-19T23%3A42%3A17.577Z",
-    title: "Camera",
-  },
-  {
-    img: "https://apcuctqgazqqjobpdhax.supabase.co/storage/v1/object/public/characters/john-locke-r8dwXm.jpg?t=2023-07-19T23%3A42%3A46.951Z",
-    title: "Hats",
-    cols: 2,
-  },
-  {
-    img: "https://apcuctqgazqqjobpdhax.supabase.co/storage/v1/object/public/characters/pennywise-the-dancing-clown-XHQwt_.jpg",
-    title: "Honey",
-    rows: 2,
-    cols: 2,
-  },
-  {
-    img: "https://apcuctqgazqqjobpdhax.supabase.co/storage/v1/object/public/characters/pennywise-the-dancing-clown-mQgTyD.jpg",
-    title: "Basketball",
-  },
-  {
-    img: "https://apcuctqgazqqjobpdhax.supabase.co/storage/v1/object/public/characters/2023-07-19/queen-cersei-lannister-Ri3puF.jpg?t=2023-07-19T23%3A43%3A18.165Z",
-    title: "Fern",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1597645587822-e99fa5d45d25",
-    title: "Mushrooms",
-    rows: 2,
-    cols: 2,
-  },
-  {
-    img: "https://images.unsplash.com/photo-1567306301408-9b74779a11af",
-    title: "Tomato basil",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1471357674240-e1a485acb3e1",
-    title: "Sea star",
-  },
-  {
-    img: "https://apcuctqgazqqjobpdhax.supabase.co/storage/v1/object/public/characters/john-locke-r8dwXm.jpg?t=2023-07-19T23%3A42%3A46.951Z",
-    title: "Coffee",
-    cols: 2,
-  },
-  {
-    img: "https://images.unsplash.com/photo-1589118949245-7d38baf380d6",
-    title: "Bike",
-    cols: 2,
-  },
-];
