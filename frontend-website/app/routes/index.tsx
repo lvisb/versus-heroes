@@ -8,8 +8,9 @@ import { APIFetch } from "~/services/api.service";
 // https://remix.run/api/conventions#meta
 export const meta: MetaFunction = () => {
   return {
-    title: "Remix Starter",
-    description: "Welcome to remix!",
+    title: "Supaheroes | AI powered heroes and villains",
+    description:
+      "Welcome to the incredible world of fantasy and superpowers! Here, with the help of AI, you will revisit the history of the most iconic heroes and villains from movies, games, and comics.",
   };
 };
 

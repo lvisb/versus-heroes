@@ -70,7 +70,7 @@ const Document = withEmotionCache(
           }}
         >
           {children}
-          <ScrollRestoration />
+          <ScrollRestoration  />
           <Scripts />
           <LiveReload />
         </body>
