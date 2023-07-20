@@ -1,0 +1,14 @@
+- hosts: all
+  gather_facts: false
+  vars:
+    node_env: production
+    local_dir: "{{ playbook_dir }}/.."
+    website_root_dir: "{{ www_dir }}/supaheroes"
+  vars_files:
+    - vars/secrets.yaml
+    - vars/general.yaml
+  roles:
+    - frontend-cms
+  become: true
+
+

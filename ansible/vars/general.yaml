@@ -7,3 +7,5 @@ user_node: node
 user_node_uid: 9002
 
 backend_port: 8001
+
+backend_api_url: "http://{{ public_ip }}:{{ backend_port }}/api/v1"

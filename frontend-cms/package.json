@@ -47,7 +47,7 @@
   "scripts": {
     "dev": "refine dev",
     "build": "tsc && refine build",
-    "preview": "refine start",
+    "preview": "refine start --host",
     "refine": "refine"
   },
   "browserslist": {
