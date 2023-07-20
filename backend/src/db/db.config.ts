@@ -12,7 +12,7 @@ export const dataSourceOptions: DataSourceOptions = {
   migrationsTableName: '_typeorm_migrations',
   migrations: [FnEmailExists1689211449590],
   migrationsTransactionMode: 'each',
-  logging: 'all',
+  logging: process.env.NODE_ENV === 'production' ? ['error', 'warn'] : 'all',
 }
 
 export default new DataSource(dataSourceOptions)
