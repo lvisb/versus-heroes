@@ -4,3 +4,7 @@ export namespace supabase {
 
   export const charAssetsUrl = `${assetsUrl}/characters`;
 }
+
+export namespace website {
+  export const baseTitle = "Supaheroes"
+}

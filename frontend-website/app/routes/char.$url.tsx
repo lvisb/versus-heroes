@@ -5,12 +5,19 @@ import type { MetaFunction } from "remix";
 import { CharDetails } from "~/routes-pages/char";
 import { QuiltedImageList } from "~/routes-pages/index/gallery";
 import { APIFetch } from "~/services/api.service";
+import { website } from "~/src/consts";
 
 // https://remix.run/api/conventions#meta
-export const meta: MetaFunction = () => {
+export const meta: MetaFunction = (stuff) => {
+  let title: string;
+
+  if (stuff.data?.char)
+    title = stuff.data?.char.charName + " | " + website.baseTitle;
+  else title = "Char details error | " + website.baseTitle;
+
   return {
-    title: "Remix Starter",
-    description: "Welcome to remix!",
+    title: title,
+    description: stuff.data?.char.summary || "Error loading char details",
   };
 };
 
