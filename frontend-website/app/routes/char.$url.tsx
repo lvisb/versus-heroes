@@ -21,6 +21,12 @@ export const loader = async (remixArgs: DataFunctionArgs) => {
 
   const response = await api.char(params.url!);
 
+  if (response.data.char.strengths.length < 5)
+    response.data.char.strengths.push("---");
+
+  if (response.data.char.weaknesses.length < 5)
+    response.data.char.weaknesses.push("---");
+
   return response.data;
 };
 

@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   Button,
   Card,
@@ -6,10 +7,23 @@ import {
   CardContent,
   CardHeader,
   CardMedia,
+  Chip,
+  Container,
+  Divider,
+  Grid,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemIcon,
+  ListItemText,
+  Stack,
   Typography,
 } from "@mui/material";
 import { useLoaderData } from "@remix-run/react";
 import { supabase } from "~/src/consts";
+import { Stars } from "./components/stars";
+import GppBadIcon from "@mui/icons-material/GppBad";
+import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety";
 
 export const CharDetails = () => {
   const char = useLoaderData().char;
@@ -36,34 +50,193 @@ export const CharDetails = () => {
         },
       }}
     >
-      <Card
-        sx={{
-          maxWidth: 512,
-          position: "relative",
-          zIndex: 2,
-          margin: "0 auto",
-          top: "50px",
-        }}
-        elevation={24}
-      >
-        <CardHeader
-          title={char.charName}
-          titleTypographyProps={{ textAlign: "center" }}
-        />
-        <CardMedia
-          sx={{ height: 512 }}
-          image={`${supabase.charAssetsUrl}/${char.profileImageId.imagePath}`}
-          title="green iguana"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {char.charName}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {char.summary}
-          </Typography>
-        </CardContent>
-      </Card>
+      <Box sx={{ position: "relative", zIndex: 2, padding: "20px 0" }}>
+        <Typography gutterBottom variant="h3" textAlign="center">
+          {char.charName}
+        </Typography>
+        <Card
+          sx={{
+            maxWidth: 512,
+            margin: "20px auto 0",
+          }}
+          elevation={24}
+        >
+          <CardMedia
+            sx={{ height: 512 }}
+            image={`${supabase.charAssetsUrl}/${char.profileImageId.imagePath}`}
+            title={char.charName}
+          />
+          <CardContent>
+            <Typography variant="body2" color="text.secondary">
+              {char.summary}
+            </Typography>
+          </CardContent>
+        </Card>
+
+        <Container maxWidth="lg" sx={{}}>
+          <Grid container spacing={2} sx={{ mt: 2 }}>
+            <Grid item xs={12}>
+              <Typography
+                gutterBottom
+                variant="h5"
+                fontWeight="bold"
+                textAlign="center"
+              >
+                Also known as
+              </Typography>
+            </Grid>
+
+            <Grid item xs={12}>
+              <Stack
+                direction="row"
+                spacing={2}
+                flexWrap="wrap"
+                useFlexGap={true}
+                gap={2}
+                justifyContent="center"
+              >
+                {char.alsoKnownAs.map((title: string) => (
+                  <Chip key={title} label={title} />
+                ))}
+              </Stack>
+            </Grid>
+
+            <Grid item xs={12} marginTop={5}>
+              <Typography
+                gutterBottom
+                variant="h5"
+                fontWeight="bold"
+                textAlign="center"
+              >
+                Attributes
+              </Typography>
+            </Grid>
+
+            <Grid item xs={12}>
+              <Divider />
+            </Grid>
+
+            <Grid item xs={12}>
+              <Stack
+                direction="row"
+                flexWrap="wrap"
+                useFlexGap={true}
+                gap={2}
+                justifyContent="space-evenly"
+              >
+                {Object.keys(char.attributes).map((key: string) => {
+                  return (
+                    <Stars
+                      key={key}
+                      label={key.toUpperCase()}
+                      count={char.attributes[key]}
+                    />
+                  );
+                })}
+              </Stack>
+            </Grid>
+
+            <Grid item xs={12}>
+              <Divider />
+            </Grid>
+
+            <Grid item xs={12} md={6} marginTop={5}>
+              <Typography
+                gutterBottom
+                variant="h5"
+                fontWeight="bold"
+                textAlign="left"
+              >
+                Strenghts
+              </Typography>
+            </Grid>
+
+            <Grid item xs={12} md={6} marginTop={5}>
+              <Typography
+                gutterBottom
+                variant="h5"
+                fontWeight="bold"
+                textAlign="right"
+              >
+                Weaknesses
+              </Typography>
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <List
+                dense={true}
+                sx={{
+                  backgroundColor: "rgba(255,255,255,0.1)",
+                  borderRadius: "10px",
+                }}
+              >
+                {char.strengths.map((value: string) => (
+                  <ListItem
+                    sx={{
+                      "& .MuiListItemSecondaryAction-root": {
+                        top: "57%",
+                      },
+                      borderRadius: "10px",
+                    }}
+                  >
+                    <ListItemIcon>
+                      <HealthAndSafetyIcon
+                        fontSize="large"
+                        sx={{ fill: "#a7c957" }}
+                      />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={value}
+                      sx={{
+                        textAlign: "left",
+                        marginLeft: "10px",
+                        "& .MuiTypography-root": {
+                          fontSize: "1.2rem",
+                        },
+                      }}
+                    />
+                  </ListItem>
+                ))}
+              </List>
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              <List
+                dense={true}
+                sx={{
+                  backgroundColor: "rgba(255,255,255,0.1)",
+                  borderRadius: "10px",
+                }}
+              >
+                {char.weaknesses.map((value: string) => (
+                  <ListItem
+                    secondaryAction={
+                      <GppBadIcon fontSize="large" sx={{ fill: "#f4a259" }} />
+                    }
+                    sx={{
+                      "& .MuiListItemSecondaryAction-root": {
+                        top: "57%",
+                      },
+                      borderRadius: "10px",
+                    }}
+                  >
+                    <ListItemText
+                      primary={value}
+                      sx={{
+                        textAlign: "right",
+                        marginRight: "10px",
+                        "& .MuiTypography-root": {
+                          fontSize: "1.2rem",
+                        },
+                      }}
+                    />
+                  </ListItem>
+                ))}
+              </List>
+            </Grid>
+          </Grid>
+        </Container>
+      </Box>
     </Box>
   );
 };
