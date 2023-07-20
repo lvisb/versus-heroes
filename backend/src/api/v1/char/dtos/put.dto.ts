@@ -37,7 +37,7 @@ export class CharPutDto {
   charType: string
 
   @Expose()
-  @ArrayMaxSize(5, { message: 'Too many aliases' })
+  @ArrayMaxSize(10, { message: 'Too many aliases' })
   alsoKnownAs: string[]
 
   @Expose()
