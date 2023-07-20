@@ -124,7 +124,7 @@ API_BASE_URL=http://localhost:8001/api/v1
 
 - Clone the repository:
 ```
-git clone <your repo github link>
+git clone git@github.com:lvisb/versus-heroes.git
 ```
 
 #### Backend
