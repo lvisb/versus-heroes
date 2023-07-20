@@ -1,0 +1,9 @@
+# general
+www_dir: /srv/www
+  
+# users
+user_nginx_uid: 9001
+user_node: node
+user_node_uid: 9002
+
+backend_port: 8001

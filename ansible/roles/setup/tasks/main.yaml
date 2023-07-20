@@ -1,0 +1,20 @@
+- name: "update.yaml"
+  import_tasks: "update.yaml"
+
+- name: "install.yaml"
+  import_tasks: "install.yaml"
+
+- name: "install_docker.yaml"
+  import_tasks: "install_docker.yaml"
+
+- name: "users.yaml"
+  import_tasks: "users.yaml"
+
+- name: "ssh_remote_config.yaml"
+  import_tasks: "ssh_remote_config.yaml"
+
+- name: "server.yaml"
+  import_tasks: "server.yaml"
+    
+- name: "vimrc.yaml"
+  import_tasks: "vimrc.yaml"

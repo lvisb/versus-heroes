@@ -1,0 +1,14 @@
+- hosts: all
+  gather_facts: false
+  vars_files:
+    - vars/secrets.yaml
+    - vars/general.yaml
+  vars_prompt:
+    - name: "update_type"
+      prompt: "should update packages? (dist, full, no, safe, yes)"
+      private: false
+      default: yes
+  roles:
+    - setup
+
+

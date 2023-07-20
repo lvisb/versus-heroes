@@ -1,0 +1,8 @@
+- name: "server : create www dir"
+  ansible.builtin.file:
+    path: "{{ www_dir }}"
+    owner: "root"
+    group: "root"
+    state: directory
+  become: true
+

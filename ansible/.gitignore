@@ -1,0 +1,5 @@
+vars/secrets*
+*.key
+*.csr
+*.p12
+*.pem

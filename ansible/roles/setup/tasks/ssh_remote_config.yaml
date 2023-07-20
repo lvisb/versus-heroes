@@ -1,0 +1,16 @@
+- name: "ssh_remote_config : sshd_config variables"
+  ansible.builtin.copy:
+    dest: "/etc/ssh/sshd_config.d/01-custom.conf"
+    mode: 0600
+    content: |
+      PubkeyAuthentication yes
+      AllowAgentForwarding no
+      AllowTcpForwarding no
+      IgnoreRhosts yes
+      PasswordAuthentication no
+      PermitRootLogin no
+  become: true
+
+- name: "ssh_remote_config : restart ssh service"
+  command: service ssh restart
+  become: true

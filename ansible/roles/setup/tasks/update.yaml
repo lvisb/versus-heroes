@@ -1,0 +1,6 @@
+- name: "update : apt update"
+  apt:
+    upgrade: "{{ update_type }}"
+    update_cache: yes
+  when: update_type != 'no'
+  become: true

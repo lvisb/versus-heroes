@@ -1,0 +1,23 @@
+- name: "install : aptitude"
+  apt:
+    name: aptitude
+    state: latest
+    update_cache: true
+  become: true
+
+- name: "install : required system packages"
+  apt:
+    pkg:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - software-properties-common
+    state: latest
+  become: true
+
+- name: "install : fail2ban"
+  apt:
+    name: fail2ban
+    state: latest
+  become: true
+

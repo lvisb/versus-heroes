@@ -1,0 +1,17 @@
+- name: "users : create node group"
+  group:
+    name: "{{ user_node }}"
+    gid: "{{ user_node_uid }}"
+    state: present
+  become: true
+
+- name: "users : create node user"
+  ansible.builtin.user:
+    uid: "{{ user_node_uid }}"
+    name: "{{ user_node }}"
+    group: "{{ user_node }}"
+    create_home: false
+    shell: /usr/sbin/nologin
+    system: true
+    state: present
+  become: true
