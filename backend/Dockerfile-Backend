@@ -1,0 +1,24 @@
+FROM node:18.16.0-alpine3.17
+
+ARG NODE_UID
+
+RUN umask 0002
+
+RUN deluser --remove-home node \
+  && addgroup -S node -g $NODE_UID \
+  && adduser -S -G node -u $NODE_UID node
+
+WORKDIR /home/node/backend/
+
+COPY ./package*.json ./
+
+RUN npm ci
+
+# copia tudo e o src
+COPY ./tsconfig* ./
+COPY ./nest-cli.json ./
+COPY ./src ./src
+
+RUN npm run build
+
+ENTRYPOINT ["npm", "run", "start:prod"]

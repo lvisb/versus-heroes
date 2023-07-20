@@ -1,0 +1,28 @@
+services:
+  supaheroes_backend:
+    user: '${NODE_UID}:${NODE_UID}'
+    image: supaheroes_backend:1.0.0
+    container_name: supaheroes_backend
+    networks:
+      - supaheroes-webserver-network
+    build:
+      context: ./
+      args:
+        NODE_UID: ${NODE_UID}
+      dockerfile: Dockerfile-Backend
+    logging:
+      options:
+        max-size: '10m'
+        max-file: '5'
+    env_file:
+      - .env
+    volumes:
+      - '/etc/passwd:/etc/passwd:ro'
+    ports:
+      - '${BACKEND_PORT}:${BACKEND_PORT}'
+    restart: unless-stopped
+
+# network config
+networks:
+  supaheroes-webserver-network:
+    external: true
