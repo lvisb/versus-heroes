@@ -1,0 +1,57 @@
+- name: create project dir
+  ansible.builtin.file:
+    path: "{{ website_root_dir }}"
+    owner: "{{ user_node }}"
+    group: "{{ user_node }}"
+    state: directory
+  become: true
+
+- name: copy src to server
+  ansible.posix.synchronize:
+    src: "{{ local_dir }}/backend/"
+    dest: "{{ website_root_dir }}/backend/"
+    delete: yes
+    recursive: yes
+    archive: no
+    rsync_opts:
+      - "--include=i18n"
+      - "--include=i18n/**"
+      - "--include=src"
+      - "--include=src/**"
+      - "--include=package*.json"
+      - "--include=tsconfig*"
+      - "--include=nest*"
+      - "--exclude=*"
+      - "--no-motd"
+  become: true
+  become_user: "node"
+
+- name: copy dockerfile to server
+  ansible.builtin.copy:
+    src: "{{ local_dir }}/backend/Dockerfile-Backend"
+    owner: "{{ user_node }}"
+    group: "{{ user_node }}"
+    dest: "{{ website_root_dir }}/backend/"
+
+- name: copy dockercompose to server
+  ansible.builtin.copy:
+    src: "{{ local_dir }}/backend/docker-compose-backend.yml"
+    owner: "{{ user_node }}"
+    group: "{{ user_node }}"
+    dest: "{{ website_root_dir }}/backend/"
+
+- name: backend env
+  template:
+    src: "{{ playbook_dir }}/templates/env-backend.j2"
+    owner: "{{ user_node }}"
+    group: "{{ user_node }}"
+    dest: "{{ website_root_dir }}/backend/.env"
+
+- name: build docker-compose
+  ansible.builtin.shell:
+    executable: /bin/bash
+    chdir: "{{ website_root_dir }}/backend/"
+    cmd: |
+      source .env && export $(sed '/^#/d' '.env' | cut -d= -f1)
+      docker compose -f docker-compose-backend.yml --env-file .env up -d --build --force-recreate 
+      docker image prune -f
