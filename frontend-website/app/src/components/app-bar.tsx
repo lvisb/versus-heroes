@@ -28,7 +28,8 @@ export const AppBar = () => {
               <img
                 src={LogoIcon}
                 style={{ height: "50px" }}
-                alt="Superhero icons created by Freepik - Flaticon / flaticon.com/free-icons/superhero"
+                alt="Supaheroes"
+                title="Superhero icons created by Freepik - Flaticon / flaticon.com/free-icons/superhero"
               />
 
               <img src={Logo} alt="Supaheroes" style={{ height: "40px" }} />
