@@ -1,0 +1,28 @@
+FROM node:18.16.0-alpine3.17
+
+ARG NODE_UID
+
+RUN umask 0002
+
+# remove usuário e grupo node para trabalhar com o mesmo
+# usuário e grupo do host
+RUN deluser --remove-home node \
+  && addgroup -S node -g $NODE_UID \
+  && adduser -S -G node -u $NODE_UID node
+
+WORKDIR /home/node/frontend/
+
+COPY ./package*.json ./
+
+RUN npm ci
+
+# copia tudo e o src
+COPY ./remix* ./
+COPY ./tsconfig* ./
+COPY ./tailwind* ./
+COPY ./app ./app
+COPY ./public ./public
+
+RUN npm run build
+
+ENTRYPOINT ["npm", "run", "start"]
