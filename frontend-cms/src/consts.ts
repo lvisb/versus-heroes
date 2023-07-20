@@ -1,5 +1,5 @@
 export namespace api {
-  export const baseUrl = "http://localhost:8001/api/v1";
+  export const baseUrl = import.meta.env.VITE_API_BASE_URL as string;
 }
 
 export namespace supabase {
