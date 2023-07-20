@@ -76,7 +76,7 @@ function App() {
                 warnWhenUnsavedChanges: true,
                 reactQuery: {
                   clientConfig: queryClient,
-                  // devtoolConfig: false
+                  devtoolConfig: false
                 },
               }}
             >
