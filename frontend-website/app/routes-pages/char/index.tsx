@@ -234,6 +234,47 @@ export const CharDetails = () => {
                 ))}
               </List>
             </Grid>
+
+            <Grid item xs={12}>
+              <Divider />
+            </Grid>
+
+            <Grid item xs={12} marginTop={5}>
+              <Typography
+                gutterBottom
+                variant="h5"
+                fontWeight="bold"
+                textAlign="center"
+              >
+                History
+              </Typography>
+            </Grid>
+
+            <Grid item xs={12}>
+              {char.history.split("\n\n").map((chunk: string) => (
+                <Typography
+                  gutterBottom
+                  textAlign="justify"
+                  fontSize="1.2rem"
+                  paddingY={0.5}
+                >
+                  {chunk}
+                </Typography>
+              ))}
+            </Grid>
+
+            <Grid item xs={12}>
+              <Stack direction="row" spacing={1} flexWrap="wrap" gap={2}>
+                {char?.images.map((image: any) => (
+                  <Card key={image.imageId} sx={{ maxWidth: 368 }}>
+                    <CardMedia
+                      component="img"
+                      image={`${supabase.charAssetsUrl}/${image.imagePath}`}
+                    />
+                  </Card>
+                ))}
+              </Stack>
+            </Grid>
           </Grid>
         </Container>
       </Box>
