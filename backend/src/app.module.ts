@@ -7,6 +7,7 @@ import { ChatgptModule } from '#chatgpt/chatgpt.module.js'
 import { DbModule } from '#db/db.module.js'
 import { DreamstudioModule } from './dreamstudio/dreamstudio.module.js'
 import { MeModule } from './api/v1/me/me.module.js'
+import { WebsiteModule } from './api/v1/website/website.module.js'
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { MeModule } from './api/v1/me/me.module.js'
     ChatgptModule,
     DreamstudioModule,
     MeModule,
+    WebsiteModule,
   ],
   controllers: [],
   providers: [],
