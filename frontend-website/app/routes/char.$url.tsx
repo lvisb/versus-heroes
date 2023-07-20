@@ -29,10 +29,14 @@ export const loader = async (remixArgs: DataFunctionArgs) => {
   const response = await api.char(params.url!);
 
   if (response.data.char.strengths.length < 5)
-    response.data.char.strengths.push("---");
+    response.data.char.strengths = response.data.char.strengths.concat(
+      Array(5 - response.data.char.strengths.length).fill("---")
+    );
 
   if (response.data.char.weaknesses.length < 5)
-    response.data.char.weaknesses.push("---");
+    response.data.char.weaknesses = response.data.char.weaknesses.concat(
+      Array(5 - response.data.char.weaknesses.length).fill("---")
+    );
 
   return response.data;
 };
