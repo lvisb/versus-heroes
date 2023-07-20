@@ -30,6 +30,10 @@ export class APIFetch {
     return this.defaultEndpoint || "";
   }
 
+  char(slug: string): Promise<AxiosResponse<any>> {
+    return this.request.get(`/char/${slug}`);
+  }
+
   chars(): Promise<AxiosResponse<any>> {
     return this.request.get(`/chars`);
   }
