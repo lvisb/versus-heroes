@@ -1,3 +1,3 @@
 export namespace config {
-  export const maxCharsPerHour = 3
+  export const maxCharsPerHour = 10 
 }
