@@ -20,6 +20,7 @@ COPY ./vite* ./
 COPY ./src ./src
 COPY ./public ./public
 COPY ./index.html ./
+COPY ./.env ./.env
 
 RUN npm run build
 

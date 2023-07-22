@@ -9,3 +9,5 @@ user_node_uid: 9002
 backend_port: 8001
 
 backend_api_url: "http://{{ public_ip }}:{{ backend_port }}/api/v1"
+
+supabase_assets_url: "{{ supabase_url }}/storage/v1/object/public"
