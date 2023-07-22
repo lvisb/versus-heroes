@@ -32,8 +32,8 @@ export const CharDetails = () => {
     <Box
       sx={{
         background: `url(${supabase.charAssetsUrl}/${char.profileImageId.imagePath}) no-repeat`,
-        "background-size": "cover",
-        "background-position": "center",
+        "backgroundSize": "cover",
+        "backgroundPosition": "center",
         "&::after": {
           content: "''",
           position: "fixed",
@@ -44,8 +44,8 @@ export const CharDetails = () => {
           bottom: 0,
           right: 0,
           background: "rgba(0,0,0,0.6)",
-          "backdrop-filter": "blur(33px)",
-          "background-blend-mode": "overlay",
+          "backdropFilter": "blur(33px)",
+          "backgroundBlendMode": "overlay",
           zIndex: 1,
         },
       }}
@@ -95,8 +95,8 @@ export const CharDetails = () => {
                 gap={2}
                 justifyContent="center"
               >
-                {char.alsoKnownAs.map((title: string) => (
-                  <Chip key={title} label={title} />
+                {char.alsoKnownAs.map((title: string, index: number) => (
+                  <Chip key={index} label={title} />
                 ))}
               </Stack>
             </Grid>
@@ -124,15 +124,17 @@ export const CharDetails = () => {
                 gap={2}
                 justifyContent="space-evenly"
               >
-                {Object.keys(char.attributes).map((key: string) => {
-                  return (
-                    <Stars
-                      key={key}
-                      label={key.toUpperCase()}
-                      count={char.attributes[key]}
-                    />
-                  );
-                })}
+                {Object.keys(char.attributes).map(
+                  (key: string, index: number) => {
+                    return (
+                      <Stars
+                        key={index}
+                        label={key.toUpperCase()}
+                        count={char.attributes[key]}
+                      />
+                    );
+                  }
+                )}
               </Stack>
             </Grid>
 
@@ -170,8 +172,9 @@ export const CharDetails = () => {
                   borderRadius: "10px",
                 }}
               >
-                {char.strengths.map((value: string) => (
+                {char.strengths.map((value: string, index: number) => (
                   <ListItem
+                    key={index}
                     sx={{
                       "& .MuiListItemSecondaryAction-root": {
                         top: "57%",
@@ -208,8 +211,9 @@ export const CharDetails = () => {
                   borderRadius: "10px",
                 }}
               >
-                {char.weaknesses.map((value: string) => (
+                {char.weaknesses.map((value: string, index: number) => (
                   <ListItem
+                    key={index}
                     secondaryAction={
                       <GppBadIcon fontSize="large" sx={{ fill: "#f4a259" }} />
                     }
@@ -251,16 +255,19 @@ export const CharDetails = () => {
             </Grid>
 
             <Grid item xs={12}>
-              {char.history.split("\n\n").map((chunk: string) => (
-                <Typography
-                  gutterBottom
-                  textAlign="justify"
-                  fontSize="1.2rem"
-                  paddingY={0.5}
-                >
-                  {chunk}
-                </Typography>
-              ))}
+              {char.history
+                .split("\n\n")
+                .map((chunk: string, index: number) => (
+                  <Typography
+                    key={index}
+                    gutterBottom
+                    textAlign="justify"
+                    fontSize="1.2rem"
+                    paddingY={0.5}
+                  >
+                    {chunk}
+                  </Typography>
+                ))}
             </Grid>
 
             <Grid item xs={12}>

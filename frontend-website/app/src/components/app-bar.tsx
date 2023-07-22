@@ -5,7 +5,7 @@ import LogoIcon from "~/src/assets/supaheroes-icon.png";
 import Logo from "~/src/assets/supaheroes-logo.png";
 import { Stack, alpha } from "@mui/material";
 import styled from "@emotion/styled";
-import { Link } from "remix";
+import { Link } from "@remix-run/react";
 
 const StyledAppBar = styled(MuiAppBar)(({ theme }) => ({
   backdropFilter: "blur(8px)",

@@ -1,19 +1,19 @@
 import * as React from "react";
-import {
-  Links,
-  LiveReload,
-  Meta,
-  MetaFunction,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-  useCatch,
-} from "remix";
 import { withEmotionCache } from "@emotion/react";
 import { unstable_useEnhancedEffect as useEnhancedEffect } from "@mui/material";
 import theme from "./src/theme";
 import ClientStyleContext from "./src/ClientStyleContext";
 import Layout from "./src/Layout";
+import type { MetaFunction } from "@remix-run/node";
+import {
+  Links,
+  LiveReload,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+  useCatch,
+} from "@remix-run/react";
 
 interface DocumentProps {
   children: React.ReactNode;
@@ -64,13 +64,15 @@ const Document = withEmotionCache(
           />
         </head>
         <body
-          style={{
-            // background:
-            //   "radial-gradient(circle, rgba(0,237,131,1) 0%, rgba(8,28,21,1) 100%)",
-          }}
+          style={
+            {
+              // background:
+              //   "radial-gradient(circle, rgba(0,237,131,1) 0%, rgba(8,28,21,1) 100%)",
+            }
+          }
         >
           {children}
-          <ScrollRestoration  />
+          <ScrollRestoration />
           <Scripts />
           <LiveReload />
         </body>
