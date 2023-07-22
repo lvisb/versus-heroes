@@ -20,20 +20,23 @@ import {
   Typography,
 } from "@mui/material";
 import { useLoaderData } from "@remix-run/react";
-import { supabase } from "~/src/consts";
 import { Stars } from "./components/stars";
 import GppBadIcon from "@mui/icons-material/GppBad";
 import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety";
+import type { Env } from "~/server/env.server";
+import { supabase } from "~/src/consts";
 
 export const CharDetails = () => {
-  const char = useLoaderData().char;
+  const loaderData = useLoaderData();
+  const env = loaderData.env as Env;
+  const char = loaderData.char;
 
   return (
     <Box
       sx={{
-        background: `url(${supabase.charAssetsUrl}/${char.profileImageId.imagePath}) no-repeat`,
-        "backgroundSize": "cover",
-        "backgroundPosition": "center",
+        background: `url(${env.SUPABASE_ASSETS_URL}/${supabase.charAssetsUrl}/${char.profileImageId.imagePath}) no-repeat`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
         "&::after": {
           content: "''",
           position: "fixed",
@@ -44,8 +47,8 @@ export const CharDetails = () => {
           bottom: 0,
           right: 0,
           background: "rgba(0,0,0,0.6)",
-          "backdropFilter": "blur(33px)",
-          "backgroundBlendMode": "overlay",
+          backdropFilter: "blur(33px)",
+          backgroundBlendMode: "overlay",
           zIndex: 1,
         },
       }}
@@ -63,7 +66,7 @@ export const CharDetails = () => {
         >
           <CardMedia
             sx={{ height: 512 }}
-            image={`${supabase.charAssetsUrl}/${char.profileImageId.imagePath}`}
+            image={`${env.SUPABASE_ASSETS_URL}/${supabase.charAssetsUrl}/${char.profileImageId.imagePath}`}
             title={char.charName}
           />
           <CardContent>
@@ -276,7 +279,7 @@ export const CharDetails = () => {
                   <Card key={image.imageId} sx={{ maxWidth: 368 }}>
                     <CardMedia
                       component="img"
-                      image={`${supabase.charAssetsUrl}/${image.imagePath}`}
+                      image={`${env.SUPABASE_ASSETS_URL}/${supabase.charAssetsUrl}/${image.imagePath}`}
                     />
                   </Card>
                 ))}

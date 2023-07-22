@@ -3,6 +3,7 @@ import type { MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/server-runtime";
 import * as React from "react";
 import { QuiltedImageList } from "~/routes-pages/index/gallery";
+import { env } from "~/server/env.server";
 import { APIFetch } from "~/services/api.service";
 
 // https://remix.run/api/conventions#meta
@@ -19,7 +20,7 @@ export const loader = async () => {
 
   const response = await api.chars();
 
-  return response.data;
+  return { ...response.data, env: { ...env() } };
 };
 
 // https://remix.run/guides/routing#index-routes

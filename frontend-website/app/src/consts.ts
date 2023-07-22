@@ -1,10 +1,7 @@
 export namespace supabase {
-  export const assetsUrl =
-    "https://apcuctqgazqqjobpdhax.supabase.co/storage/v1/object/public";
-
-  export const charAssetsUrl = `${assetsUrl}/characters`;
+  export const charAssetsUrl = `/characters`;
 }
 
 export namespace website {
-  export const baseTitle = "Supaheroes"
+  export const baseTitle = "Supaheroes";
 }

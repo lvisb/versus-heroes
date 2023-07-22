@@ -4,6 +4,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material";
 import { GalleryItem, GalleryItemProps } from "./gallery-item";
 import { useLoaderData } from "@remix-run/react";
+import type { Env } from "~/server/env.server";
 import { supabase } from "~/src/consts";
 
 function srcset(image: string, size: number, rows = 1, cols = 1) {
@@ -46,7 +47,9 @@ const gridDesign = [
 ];
 
 export const QuiltedImageList = () => {
-  const chars = useLoaderData().chars;
+  const loaderData = useLoaderData();
+  const env = loaderData.env as Env;
+  const chars = loaderData.chars;
   const { breakpoints } = useTheme();
 
   const isSmall = useMediaQuery((theme) => breakpoints.down("md"));
@@ -68,7 +71,7 @@ export const QuiltedImageList = () => {
             key={index}
             url={char.charNameSlug}
             title={char.charName}
-            img={`${supabase.charAssetsUrl}/${char.profileImageId.imagePath}`}
+            img={`${env.SUPABASE_ASSETS_URL}/${supabase.charAssetsUrl}/${char.profileImageId.imagePath}`}
             cols={currDesign.cols}
             rows={currDesign.rows}
             suppressHydrationWarning

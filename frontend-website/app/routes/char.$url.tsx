@@ -1,10 +1,11 @@
 import { Container, Paper } from "@mui/material";
 import type { MetaFunction } from "@remix-run/node";
-import type { DataFunctionArgs} from "@remix-run/server-runtime";
+import type { DataFunctionArgs } from "@remix-run/server-runtime";
 import { json } from "@remix-run/server-runtime";
 import * as React from "react";
 import { CharDetails } from "~/routes-pages/char";
 import { QuiltedImageList } from "~/routes-pages/index/gallery";
+import { env } from "~/server/env.server";
 import { APIFetch } from "~/services/api.service";
 import { website } from "~/src/consts";
 
@@ -39,7 +40,7 @@ export const loader = async (remixArgs: DataFunctionArgs) => {
       Array(5 - response.data.char.weaknesses.length).fill("---")
     );
 
-  return response.data;
+  return { ...response.data, env: { ...env() } };
 };
 
 // https://remix.run/guides/routing#index-routes
