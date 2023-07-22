@@ -1,7 +1,8 @@
 import { Container, Paper } from "@mui/material";
-import { DataFunctionArgs, json } from "@remix-run/server-runtime";
+import type { MetaFunction } from "@remix-run/node";
+import type { DataFunctionArgs} from "@remix-run/server-runtime";
+import { json } from "@remix-run/server-runtime";
 import * as React from "react";
-import type { MetaFunction } from "remix";
 import { CharDetails } from "~/routes-pages/char";
 import { QuiltedImageList } from "~/routes-pages/index/gallery";
 import { APIFetch } from "~/services/api.service";
