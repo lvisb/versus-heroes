@@ -38,7 +38,7 @@ export const GalleryItem = ({
           transitionDelay: "0.2s",
         },
         "&::after": {
-          content: `'${title}'`,
+          content: `'${title.replace(/'/g, "\\'")}'`,
           position: "absolute",
           width: "100%",
           background: "rgba(0,0,0,0.8)",
