@@ -9,27 +9,29 @@
     "start": "remix-serve build"
   },
   "dependencies": {
-    "@emotion/cache": "latest",
-    "@emotion/react": "latest",
-    "@emotion/server": "latest",
-    "@emotion/styled": "latest",
+    "@emotion/cache": "^11.11.0",
+    "@emotion/react": "^11.11.1",
+    "@emotion/server": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.14.1",
-    "@mui/material": "latest",
-    "@remix-run/node": "latest",
-    "@remix-run/react": "latest",
-    "@remix-run/serve": "latest",
-    "@remix-run/server-runtime": "latest",
+    "@mui/material": "^5.14.1",
+    "@remix-run/css-bundle": "^1.19.1",
+    "@remix-run/node": "^1.19.1",
+    "@remix-run/react": "^1.19.1",
+    "@remix-run/serve": "^1.19.1",
     "axios": "^1.4.0",
-    "react": "latest",
-    "react-dom": "latest",
-    "remix": "latest"
+    "isbot": "^3.6.8",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@remix-run/dev": "latest",
-    "@types/react": "latest",
-    "@types/react-dom": "latest",
+    "@remix-run/dev": "^1.19.1",
+    "@remix-run/eslint-config": "^1.19.1",
+    "@types/react": "^18.0.35",
+    "@types/react-dom": "^18.0.11",
     "env-cmd": "^10.1.0",
-    "typescript": "latest"
+    "eslint": "^8.38.0",
+    "typescript": "^5.0.4"
   },
   "engines": {
     "node": ">=14"
