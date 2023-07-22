@@ -18,24 +18,31 @@ function getRandomNumber(min: number, max: number) {
 }
 
 const gridDesign = [
+  // line 1-2
   { cols: 2, rows: 2 },
   { cols: 1, rows: 1 },
   { cols: 1, rows: 1 },
-  { rows: 1, cols: 2 },
-  { rows: 1, cols: 2 },
+  { rows: 2, cols: 1 },
+  { rows: 2, cols: 1 },
+  { rows: 1, cols: 1 },
+  { rows: 1, cols: 1 },
+  { rows: 1, cols: 1 },
+  { rows: 1, cols: 1 },
   { rows: 1, cols: 1 },
   { rows: 1, cols: 1 },
 
+  // 3-4
+  { rows: 1, cols: 1 },
+  { rows: 1, cols: 1 },
+  { rows: 2, cols: 1 },
+  { rows: 2, cols: 1 },
   { rows: 1, cols: 1 },
   { rows: 1, cols: 1 },
   { rows: 2, cols: 2 },
-  { rows: 1, cols: 2 },
-  { cols: 1, rows: 1 },
-  { cols: 1, rows: 1 },
-  { cols: 2, rows: 2 },
-
-  // { cols: 2, rows: 2 },
-  // { rows: 1, cols: 2 },
+  { rows: 1, cols: 1 },
+  { rows: 1, cols: 1 },
+  { rows: 1, cols: 1 },
+  { rows: 1, cols: 1 },
 ];
 
 export const QuiltedImageList = () => {
@@ -49,7 +56,7 @@ export const QuiltedImageList = () => {
   let cols = 2;
 
   if (isMedium) cols = 4;
-  if (isLarge) cols = 6;
+  if (isLarge) cols = 8;
 
   return (
     <ImageList sx={{}} variant="quilted" cols={cols} rowHeight={250}>
