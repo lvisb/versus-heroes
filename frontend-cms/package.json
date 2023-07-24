@@ -46,7 +46,7 @@
     "marked": ">=5.1.1"
   },
   "scripts": {
-    "dev": "refine dev",
+    "dev": "refine dev --port 8002",
     "build": "tsc && refine build",
     "preview": "refine start --host",
     "refine": "refine"

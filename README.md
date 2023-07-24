@@ -77,13 +77,29 @@ I used AWS, Docker, and Ansible for server deployment.
 
 ### Set up Project
 
+### Prerequisites
+
+- Supabase Account.
+- OpenAI API key.
+- DreamStudio API key. 
+
+#### Setup Supabase
+
+1. Create a project in [Supabase](https://supabase.com/) and setup a password for the database.
+
+2. Create a bucket: `Supabase Dashboard` > `Storage` > `New Bucket`.
+Name the bucket whatever you want (ex: characters), and set the permissions to `Public`.
+
+3. Now we need to define the project URL in the emails that will be sent in the sign up and forgot password areas.
+Go to `Supabase Dashboard` > `Authentication` > `URL Configuration` > `Site URL:` and set the URL to `http://localhost:8002`, which is the URL where the admin will run.
+
 #### Setup env files for the backend:
 
 backend/.env
 ```config
 NODE_ENV=development
 
-DATABASE_URL="postgresql://postgres:<password>@<supabase-db-url>:5432/postgres"
+DATABASE_URL="postgresql://postgres:<password>@<supabase-db-host>:5432/postgres"
 
 SUPABASE_URL="<supabase-api-url>"
 SUPABASE_KEY="<supabase-secret-key>"
@@ -95,30 +111,60 @@ OPENAI_API_KEY=<open-ai-api-key>
 
 DREAMSTUDIO_API_KEY=<dreamstudio-api-key>
 
-CORS_ORIGIN=http://localhost:5173
+CORS_ORIGIN=http://localhost:8002,http://localhost:8003
 
-ADMIN_FRONTEND_URL=http://localhost:5173
+ADMIN_FRONTEND_URL=http://localhost:8002
 ```
+
+### Where to get api keys
+
+#### DATABASE_URL 
+
+1. When you create a project in Supabase, you are asked to create the database password. Use the password in the URL password identification.
+2. The host you can find in the `Supabase Dashboard` > `Project Settings` > `Database` > `Connection info` > `Host`.
+
+#### SUPABASE_URL
+
+Go to `Supabase Dashboard` > `Project Settings` > `API` > `Project URL`.
+
+#### SUPABASE_KEY 
+
+Go to `Supabase Dashboard` > `Project Settings` > `API` > `Project API Keys` > `service_role secret`.
+* Attention in this part, it needs to be the key in the `service_role secret` field. If you use the `anon public key` it will not work.
+
+#### SUPABASE_JWT_SECRET
+
+Go to `Supabase Dashboard` > `Project Settings` > `API` > `JWT Settings` > `JWT Secret`.
+
+#### OPENAI_API_KEY
+
+Create your API Key: https://platform.openai.com/account/api-keys
+
+#### DREAMSTUDIO_API_KEY
+
+Create your API Key: https://dreamstudio.ai/account
 
 #### Setup env files for the frontend admin
 
 frontend-cms/.env
 ```config
 VITE_API_BASE_URL=http://localhost:8001/api/v1
+
+VITE_SUPABASE_ASSETS_URL=<supabase-project-url>/storage/v1/object/public
 ```
+
+**VITE_SUPABASE_ASSETS_URL**: Substitute `<supabase-project-url>` with the same `SUPABASE_URL` value defined in the backend.
 
 #### Setup env file for the frontend hotsite
 
 frontend-website/.env
 ```config
 API_BASE_URL=http://localhost:8001/api/v1
+
+SUPABASE_ASSETS_URL=<supabase-project-url>/storage/v1/object/public
 ```
 
-### Prerequisites
-
-- Supabase Account
-- OpenAI API key.
-- DreamStudio API key. 
+**SUPABASE_ASSETS_URL**: Use the same value defined in the frontend-cms for `VITE_SUPABASE_ASSETS_URL`.
 
 ### Install Project
 
@@ -132,10 +178,15 @@ git clone git@github.com:lvisb/versus-heroes.git
 ```sh
 cd backend
 npm install
+```
 
-# edit the file backend/src/db/db.config.ts
-# and set syncronize to true (only use true while in development)
+Next, follow these instructions to run the backend:
 
+1. Open the file backend/src/db/db.config.ts.
+2. And set syncronize to true (only use true while in development).
+
+3. Good to go:
+```sh
 npm run start:dev
 
 # should be running at: http://localhost:8001
@@ -149,7 +200,7 @@ cd frontend-cms
 npm install
 npm run dev
 
-# should be running at: http://localhost:5173
+# should be running at: http://localhost:8002
 ```
 
 #### Frontend Website
@@ -160,7 +211,7 @@ cd frontend-website
 npm install
 npm run dev
 
-# should be running at: http://localhost:3000
+# should be running at: http://localhost:8003
 ```
 
 

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "remix build",
-    "dev": "env-cmd remix dev",
+    "dev": "PORT=8003 env-cmd remix dev",
     "postinstall": "remix setup node",
     "start": "remix-serve build"
   },
