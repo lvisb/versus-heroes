@@ -10,8 +10,10 @@ More info: https://dev.to/lvisb/supaheroes-ai-powered-heroes-3f3j
 
 ### Project Demo link
 
-- [Admin](http://3.14.15.191:4173)
-- [Hotsite](http://3.14.15.191:3000)
+*The project was taken down in December 2023.*
+
+- ~~Admin~~
+- ~~Hotsite~~
 
 ## About
 
